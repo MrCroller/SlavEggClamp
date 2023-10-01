@@ -1,4 +1,6 @@
-﻿using SEC.Character.Controller;
+﻿using SEC.Associations;
+using SEC.Character.Controller;
+using SEC.Enum;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -28,6 +30,11 @@ namespace SEC.Character.Input
         /// </summary>
         [Tooltip("Range = 0 <> 0.3")][field: SerializeField] public float MovementSmoothing { get; private set; } = .05f;
         [field: SerializeField] public float ForseThrowEgg { get; private set; }
+        [field: SerializeField] public float ForseKickedEgg { get; private set; }
+        [Tooltip("Входящая сила достаточная что бы умереть")][field: SerializeField] public float ForseToDeath { get; private set; }
+        [field: SerializeField] public float DeathTime { get; private set; }
+        [field: SerializeField] public float ImmunityTime { get; private set; }
+        public OrientationLR HomeSide;
         [Tooltip("Может ли игрок управлять во время прыжка")][field: SerializeField] public bool AirControl { get; private set; } = true;
 
         [Header("Input Setting")]
@@ -43,6 +50,7 @@ namespace SEC.Character.Input
         [field: SerializeField] public LayerMask WhatIsEgg { get; private set; }                 // Маска, определяющая, что является яйцом для персонажа
         [field: SerializeField] public GameObject Egg { get; private set; }
         [field: SerializeField] public Transform EggCheck { get; private set; }                  // Позиция, обозначающая место проверки яйца
+        [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }                  // Позиция, обозначающая место проверки яйца
 
         public Rigidbody2D Rigidbody2D { get; private set; }
 
@@ -51,8 +59,11 @@ namespace SEC.Character.Input
 
         public UnityEvent OnLandEvent;
         public UnityEvent<bool> OnCrouchEvent;
-        public UnityEvent OnTakeEgg;
+        public UnityEvent<bool> OnTakeEgg;
         public UnityEvent<Vector2, Vector2> OnThrowEgg;
+        [Space]
+        public UnityEvent OnKick;
+        public UnityEvent OnDeath;
 
         private CharacterController2D _controller;
         private float _horizontalMove;
@@ -67,6 +78,8 @@ namespace SEC.Character.Input
         {
             Rigidbody2D = GetComponent<Rigidbody2D>();
             _controller = new CharacterController2D(this);
+
+            OnDeath ??= new();
 
             Jump.started += OnJump;
             Hand.started += OnHand;
@@ -103,26 +116,25 @@ namespace SEC.Character.Input
             Hand.started -= OnHand;
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.layer == LayerAssociations.Egg)
+            {
+                _controller.Bump(collision.relativeVelocity.magnitude);
+            }
+        }
+
         #endregion
 
 
         #region EventHandlers
 
-        public void OnJump(InputAction.CallbackContext _)
-        {
-            _jump = true;
-        }
+        public void OnJump(InputAction.CallbackContext _) => _jump = true;
 
 
-        public void OnHand(InputAction.CallbackContext _)
-        {
-            _controller.Hand();
-        }
+        public void OnHand(InputAction.CallbackContext _) => _controller.Hand();
 
-        public void OnDeath()
-        {
-            Debug.Log("СМЭРТЬ");
-        }
+        public void OnKicked() => _controller.Kicked();
 
         #endregion
 

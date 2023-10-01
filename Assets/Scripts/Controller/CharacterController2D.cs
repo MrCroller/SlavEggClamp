@@ -1,9 +1,10 @@
 ﻿using SEC.Associations;
 using SEC.Character.Input;
 using SEC.Enum;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngineTimers;
+
 
 namespace SEC.Character.Controller
 {
@@ -13,17 +14,16 @@ namespace SEC.Character.Controller
     public class CharacterController2D
     {
         const float k_GroundedRadius = .2f;           // Радиус круга перекрытия для определения заземления
-        const float k_CeilingRadius  = .2f;           // Радиус круга перекрытия для определения того, может ли игрок встать
-        const float k_EggRadius      = .2f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
+        const float k_CeilingRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок встать
+        const float k_EggRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
 
-
-        public bool IsEggTake 
+        public bool IsEggTake
         {
             get => _isEggTake;
             set
             {
-                _input.gameObject.layer = value ? LayerAssociations.PlayerEgg : LayerAssociations.Player;
-                _input.Egg.layer = value ? LayerAssociations.PlayerEgg : LayerAssociations.Egg;
+                _input.gameObject.layer = value ? LayerAssociations.PlayerTakeEgg : LayerAssociations.Player;
+                _input.MinimapIcon.color = value ? Color.white : _saveMinimapColor;
 
                 _isEggTake = value;
                 _input.Egg.SetActive(value);
@@ -32,9 +32,16 @@ namespace SEC.Character.Controller
 
         private bool _isEggTake = false;
         private bool _isGrounded;                      // На земле ли игрок
-        private OrientationLR _orientation   = OrientationLR.Right;          // Для определения того, в какую сторону в данный момент обращен игрок
-        private bool _isWasCrouching  = false;
-        private Vector3 m_Velocity   = Vector3.zero;
+        private OrientationLR _orientation = OrientationLR.Right;          // Для определения того, в какую сторону в данный момент обращен игрок
+        private bool _isWasCrouching = false;
+        private Vector3 m_Velocity = Vector3.zero;
+
+        /// <summary>
+        /// Иммунитет к уничтожению
+        /// </summary>
+        private bool _imunable = false;
+
+        private Color _saveMinimapColor;
 
         private PlayerInput _input;
 
@@ -42,10 +49,12 @@ namespace SEC.Character.Controller
         {
             _input = input;
 
-            _input.OnLandEvent   ??= new UnityEvent();
+            _input.OnLandEvent ??= new UnityEvent();
             _input.OnCrouchEvent ??= new UnityEvent<bool>();
-            _input.OnTakeEgg     ??= new UnityEvent();
-            _input.OnThrowEgg    ??= new UnityEvent<Vector2, Vector2>();
+            _input.OnTakeEgg ??= new UnityEvent<bool>();
+            _input.OnThrowEgg ??= new UnityEvent<Vector2, Vector2>();
+
+            _saveMinimapColor = _input.MinimapIcon.color;
         }
 
         public void Execute()
@@ -104,7 +113,7 @@ namespace SEC.Character.Controller
                 {
                     // Включить коллайдер при отсутствии приседания
                     if (_input.CrouchDisableCollider != null)
-                         _input.CrouchDisableCollider.enabled = true;
+                        _input.CrouchDisableCollider.enabled = true;
 
                     if (_isWasCrouching)
                     {
@@ -152,16 +161,29 @@ namespace SEC.Character.Controller
             }
         }
 
-
+        /// <summary>
+        /// Взять яйцо
+        /// </summary>
         public void EggTake()
         {
-            if (Physics2D.OverlapCircle(_input.EggCheck.position, k_EggRadius, _input.WhatIsEgg))
+            var checkTake = Physics2D.OverlapCircle(_input.EggCheck.position, k_EggRadius);
+            if (checkTake == null) return;
+
+            if (checkTake.gameObject.layer == LayerAssociations.Egg)
             {
                 IsEggTake = true;
-                _input.OnTakeEgg.Invoke();
+                _input.OnTakeEgg.Invoke(true);
             }
+            else if (checkTake.gameObject.layer is LayerAssociations.PlayerTakeEgg or LayerAssociations.PlayerEgg)
+            {
+                checkTake.GetComponentInParent<PlayerInput>().OnKicked();
+            }
+
         }
 
+        /// <summary>
+        /// Кинуть яйцо
+        /// </summary>
         public void EggThrow()
         {
             IsEggTake = false;
@@ -169,7 +191,37 @@ namespace SEC.Character.Controller
                                      new Vector2(
                                          _orientation == OrientationLR.Right ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
                                          0f));
+            AddImmunable();
         }
+
+        /// <summary>
+        /// Выбивание яйца
+        /// </summary>
+        public void Kicked()
+        {
+            AddImmunable();
+
+            IsEggTake = false;
+
+            _input.OnKick.Invoke();
+            EggInput.OnTake.Invoke(false);
+
+            Vector2 forsePush = new(_orientation == OrientationLR.Right ? _input.ForseKickedEgg : -_input.ForseKickedEgg, 0f);
+            _input.OnThrowEgg.Invoke(_input.EggCheck.position, forsePush / 2);
+            _input.Rigidbody2D.AddForce(forsePush * 4, ForceMode2D.Impulse);
+        }
+
+        /// <summary>
+        /// Входящий удар
+        /// </summary>
+        public void Bump(float forse)
+        {
+            if (forse > _input.ForseToDeath && !_imunable)
+            {
+                _input.OnDeath.Invoke();
+            }
+        }
+
 
         private void Flip()
         {
@@ -180,6 +232,12 @@ namespace SEC.Character.Controller
             Vector3 theScale = _input.Rigidbody2D.transform.localScale;
             theScale.x *= -1;
             _input.Rigidbody2D.transform.localScale = theScale;
+        }
+
+        private void AddImmunable()
+        {
+            _imunable = true;
+            TimersPool.GetInstance().StartTimer(() => _imunable = false, _input.ImmunityTime);
         }
     }
 }
