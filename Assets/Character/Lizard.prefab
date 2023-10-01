@@ -80,11 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ed5684c3b0a56498c15d85fb170c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 40
-  JumpForce: 600
+  RunSpeed: 85
+  JumpForce: 1200
   <CrouchSpeed>k__BackingField: 0.36
   <MovementSmoothing>k__BackingField: 0.05
-  <ForseThrowEgg>k__BackingField: 50
+  <ForseThrowEgg>k__BackingField: 200
   <AirControl>k__BackingField: 1
   Move:
     m_Name: Move
@@ -215,7 +215,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

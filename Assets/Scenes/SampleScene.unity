@@ -260,8 +260,8 @@ Transform:
   m_GameObject: {fileID: 454433774}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.76, z: 0}
-  m_LocalScale: {x: 1, y: 1.2875, z: 1}
+  m_LocalPosition: {x: 0, y: -3.5, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 712931568}
@@ -346,7 +346,7 @@ Rigidbody2D:
   m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -592,7 +592,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 809202107}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 250f40625506bb3409ea44055725e164, type: 2}
+  m_Material: {fileID: 6200000, guid: 453f7a301c0ddf240be2b44ebe5c4869, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -938,17 +938,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 712931568}
     m_Modifications:
+    - target: {fileID: 300193080192565481, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d47242489f0b067489530aa8f0e609de, type: 2}
+    - target: {fileID: 300193080192565481, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: m_GravityScale
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3743825138186276548, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: m_Name
       value: Lizard
       objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 9.54
       objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.63
       objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -981,6 +997,18 @@ PrefabInstance:
     - target: {fileID: 8886013987281205111, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: RunSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: JumpForce
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
+      propertyPath: <ForseThrowEgg>k__BackingField
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8909102685929935555, guid: 5c919d94487d1f34f86e9e4ea05615ac, type: 3}
       propertyPath: OnTakeEgg.m_PersistentCalls.m_Calls.Array.size
@@ -1031,17 +1059,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 712931568}
     m_Modifications:
+    - target: {fileID: 300193080192565481, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 300193080192565481, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_GravityScale
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3743825138186276548, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_Name
       value: Bogatyr
       objectReference: {fileID: 0}
+    - target: {fileID: 7992699298605548084, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7992699298605548084, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: -9.54
       objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.63
       objectReference: {fileID: 0}
     - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1074,6 +1126,22 @@ PrefabInstance:
     - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: RunSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: JumpForce
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: <AirControl>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909102685929935555, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: <ForseThrowEgg>k__BackingField
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8909102685929935555, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: OnTakeEgg.m_PersistentCalls.m_Calls.Array.size
