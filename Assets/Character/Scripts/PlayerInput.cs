@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using SEC.Character.Controller;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
-namespace SEC.Character.Players
+
+namespace SEC.Character.Input
 {
     public class PlayerInput : MonoBehaviour
     {
+        #region Properties
+
         [Header("Movement Setting")]
         [SerializeField] public float RunSpeed = 40f;
 
@@ -55,6 +58,11 @@ namespace SEC.Character.Players
         private float _horizontalMove;
         private bool _jump;
 
+        #endregion
+
+
+        #region MONO
+
         private void Awake()
         {
             Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -95,6 +103,11 @@ namespace SEC.Character.Players
             Hand.started -= OnHand;
         }
 
+        #endregion
+
+
+        #region EventHandlers
+
         public void OnJump(InputAction.CallbackContext _)
         {
             _jump = true;
@@ -105,6 +118,13 @@ namespace SEC.Character.Players
         {
             _controller.Hand();
         }
+
+        public void OnDeath()
+        {
+            Debug.Log("СМЭРТЬ");
+        }
+
+        #endregion
 
     }
 }

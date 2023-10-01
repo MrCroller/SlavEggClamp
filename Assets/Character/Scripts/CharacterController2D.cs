@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using SEC.Associations;
+using SEC.Character.Input;
+using SEC.Enum;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 
-namespace SEC.Character.Players
+namespace SEC.Character.Controller
 {
     /// <summary>
     /// by Brackeys
@@ -19,6 +22,9 @@ namespace SEC.Character.Players
             get => _isEggTake;
             set
             {
+                _input.gameObject.layer = value ? LayerAssociations.PlayerEgg : LayerAssociations.Player;
+                _input.Egg.layer = value ? LayerAssociations.PlayerEgg : LayerAssociations.Egg;
+
                 _isEggTake = value;
                 _input.Egg.SetActive(value);
             }
@@ -26,7 +32,7 @@ namespace SEC.Character.Players
 
         private bool _isEggTake = false;
         private bool _isGrounded;                      // На земле ли игрок
-        private bool _isFacingRight   = true;          // Для определения того, в какую сторону в данный момент обращен игрок
+        private OrientationLR _orientation   = OrientationLR.Right;          // Для определения того, в какую сторону в данный момент обращен игрок
         private bool _isWasCrouching  = false;
         private Vector3 m_Velocity   = Vector3.zero;
 
@@ -113,13 +119,13 @@ namespace SEC.Character.Players
                 _input.Rigidbody2D.velocity = Vector3.SmoothDamp(_input.Rigidbody2D.velocity, targetVelocity, ref m_Velocity, _input.MovementSmoothing);
 
                 // Если входной сигнал перемещает игрока вправо, а игрок стоит лицом влево...
-                if (move > 0 && !_isFacingRight)
+                if (move > 0 && _orientation == OrientationLR.Left)
                 {
                     // ... перевернуть игрока
                     Flip();
                 }
                 // Иначе, если входной сигнал перемещает игрока влево, а игрок стоит лицом вправо...
-                else if (move < 0 && _isFacingRight)
+                else if (move < 0 && _orientation == OrientationLR.Right)
                 {
                     // ... перевернуть игрока
                     Flip();
@@ -161,14 +167,14 @@ namespace SEC.Character.Players
             IsEggTake = false;
             _input.OnThrowEgg.Invoke(_input.EggCheck.position,
                                      new Vector2(
-                                         _isFacingRight ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
+                                         _orientation == OrientationLR.Right ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
                                          0f));
         }
 
         private void Flip()
         {
             // Переключить способ обозначения игрока как стоящего перед ним
-            _isFacingRight = !_isFacingRight;
+            _orientation = (_orientation == OrientationLR.Right) ? OrientationLR.Left : OrientationLR.Right;
 
             // Умножить локальный масштаб x игрока на -1
             Vector3 theScale = _input.Rigidbody2D.transform.localScale;
