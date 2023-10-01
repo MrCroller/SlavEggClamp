@@ -61,7 +61,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.74, y: -2.24, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7992699298605548084}
@@ -80,11 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ed5684c3b0a56498c15d85fb170c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 40
-  JumpForce: 600
+  RunSpeed: 70
+  JumpForce: 900
   <CrouchSpeed>k__BackingField: 0.36
   <MovementSmoothing>k__BackingField: 0.05
-  <ForseThrowEgg>k__BackingField: 50
+  <ForseThrowEgg>k__BackingField: 100
   <AirControl>k__BackingField: 1
   Move:
     m_Name: Move
@@ -215,8 +215,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_GravityScale: 5
+  m_Material: {fileID: 6200000, guid: d47242489f0b067489530aa8f0e609de, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
