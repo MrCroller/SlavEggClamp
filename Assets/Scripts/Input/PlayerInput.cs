@@ -4,6 +4,7 @@ using SEC.Enum;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 
 namespace SEC.Character.Input
@@ -107,6 +108,8 @@ namespace SEC.Character.Input
             Move.Enable();
             Jump.Enable();
             Hand.Enable();
+
+            _controller.AddImmunable(ImmunityTime);
         }
 
         private void OnDisable()

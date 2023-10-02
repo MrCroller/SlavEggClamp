@@ -218,7 +218,7 @@ namespace SEC.Character.Controller
                                      new Vector2(
                                          _orientation == OrientationLR.Right ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
                                          0f));
-            AddImmunable();
+            AddImmunable(_input.ImmunityTime);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Kicked()
         {
-            AddImmunable();
+            AddImmunable(_input.ImmunityTime);
 
             IsEggTake = false;
 
@@ -249,6 +249,11 @@ namespace SEC.Character.Controller
             }
         }
 
+        public void AddImmunable(float time)
+        {
+            _imunable = true;
+            TimersPool.GetInstance().StartTimer(() => _imunable = false, time);
+        }
 
         private void Flip()
         {
@@ -259,12 +264,6 @@ namespace SEC.Character.Controller
             Vector3 theScale = _input.Rigidbody2D.transform.localScale;
             theScale.x *= -1;
             _input.Rigidbody2D.transform.localScale = theScale;
-        }
-
-        private void AddImmunable()
-        {
-            _imunable = true;
-            TimersPool.GetInstance().StartTimer(() => _imunable = false, _input.ImmunityTime);
         }
 
         #endregion
