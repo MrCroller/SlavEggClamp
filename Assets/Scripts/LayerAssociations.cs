@@ -16,9 +16,5 @@ namespace SEC.Associations
         /// Игрок с яйцом
         /// </summary>
         public const int PlayerTakeEgg = 8;
-        /// <summary>
-        /// Яйцо у игрока
-        /// </summary>
-        public const int PlayerEgg = 10;
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace SEC.Character.Input
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerInput : MonoBehaviour
     {
         #region Properties
@@ -42,15 +43,31 @@ namespace SEC.Character.Input
         public InputAction Jump;
         public InputAction Hand;
 
+
         [Header("Links")]
-        [field: SerializeField] public LayerMask WhatIsGround;              // Маска, определяющая, что является землей для персонажа
-        [field: SerializeField] public Transform GroundCheck { get; private set; }               // Обозначение позиции, в которой следует проверить, заземлен ли игрок
-        [field: SerializeField] public Transform CeilingCheck { get; private set; }              // Позиция, обозначающая место проверки потолков
-        [field: SerializeField] public Collider2D CrouchDisableCollider { get; private set; }    // Коллайдер, который отключается при приседании
-        [field: SerializeField] public LayerMask WhatIsEgg { get; private set; }                 // Маска, определяющая, что является яйцом для персонажа
-        [field: SerializeField] public GameObject Egg { get; private set; }
-        [field: SerializeField] public Transform EggCheck { get; private set; }                  // Позиция, обозначающая место проверки яйца
-        [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }                  // Позиция, обозначающая место проверки яйца
+        [Tooltip("Маска, определяющая, что является землей для персонажа")] public LayerMask WhatIsGround;
+
+        /// <summary>
+        /// Обозначение позиции, в которой следует проверить, заземлен ли игрок
+        /// </summary>
+        [field: SerializeField] public Transform GroundCheck { get; private set; }
+
+        /// <summary>
+        /// Позиция, обозначающая место проверки потолков
+        /// </summary>
+        [field: SerializeField] public Transform CeilingCheck { get; private set; }
+
+        /// <summary>
+        /// Коллайдер, который отключается при приседании
+        /// </summary>
+        [field: SerializeField] public Collider2D CrouchDisableCollider { get; private set; }
+
+        /// <summary>
+        /// Позиция, обозначающая место проверки яйца
+        /// </summary>
+        [field: SerializeField] public Transform EggCheck { get; private set; }
+        [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
+        [field: SerializeField] public Animator Animator { get; private set; }
 
         public Rigidbody2D Rigidbody2D { get; private set; }
 
@@ -76,7 +93,7 @@ namespace SEC.Character.Input
 
         private void Awake()
         {
-            Rigidbody2D = GetComponent<Rigidbody2D>();
+            Rigidbody2D ??= GetComponent<Rigidbody2D>();
             _controller = new CharacterController2D(this);
 
             OnDeath ??= new();

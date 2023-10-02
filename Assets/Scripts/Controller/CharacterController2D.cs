@@ -1,4 +1,5 @@
-﻿using SEC.Associations;
+﻿using System.Linq;
+using SEC.Associations;
 using SEC.Character.Input;
 using SEC.Enum;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace SEC.Character.Controller
     /// </summary>
     public class CharacterController2D
     {
+
+        #region Properties
+
         const float k_GroundedRadius = .2f;           // Радиус круга перекрытия для определения заземления
         const float k_CeilingRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок встать
         const float k_EggRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
@@ -26,7 +30,18 @@ namespace SEC.Character.Controller
                 _input.MinimapIcon.color = value ? Color.white : _saveMinimapColor;
 
                 _isEggTake = value;
-                _input.Egg.SetActive(value);
+                _input.Animator.SetBool(AnimatorAssociations.isEggTake, value);
+                EggInput.OnTake.Invoke(value);
+            }
+        }
+
+        public bool IsGrounded
+        {
+            get => _isGrounded;
+            set
+            {
+                _isGrounded = value;
+                _input.Animator.SetBool(AnimatorAssociations.isGrounded, value);
             }
         }
 
@@ -45,6 +60,11 @@ namespace SEC.Character.Controller
 
         private PlayerInput _input;
 
+        #endregion
+
+
+        #region ClassLifeCicle
+
         public CharacterController2D(PlayerInput input)
         {
             _input = input;
@@ -59,8 +79,8 @@ namespace SEC.Character.Controller
 
         public void Execute()
         {
-            bool wasGrounded = _isGrounded;
-            _isGrounded = false;
+            bool wasGrounded = IsGrounded;
+            //IsGrounded = false;
 
             // Игрок заземляется, если при передаче круга в позицию для проверки земли он попадает во что-либо, обозначенное как земля
             // Для этого можно использовать слои, но при этом Sample Assets не будет переписывать настройки проекта.
@@ -69,13 +89,17 @@ namespace SEC.Character.Controller
             {
                 if (colliders[i].gameObject != _input.Rigidbody2D.gameObject)
                 {
-                    _isGrounded = true;
+                    IsGrounded = true;
                     if (!wasGrounded)
                         _input.OnLandEvent.Invoke();
                 }
             }
         }
 
+        #endregion
+
+
+        #region Methods
 
         public void Move(float move, bool crouch, bool jump)
         {
@@ -90,7 +114,7 @@ namespace SEC.Character.Controller
             }
 
             //управлять персонажем только при включенном заземлении или AirControl
-            if (_isGrounded || _input.AirControl)
+            if (IsGrounded || _input.AirControl)
             {
 
                 // Если приседать
@@ -124,8 +148,10 @@ namespace SEC.Character.Controller
 
                 // Перемещение персонажа путем нахождения целевой скорости
                 Vector3 targetVelocity = new Vector2(move * 10f, _input.Rigidbody2D.velocity.y);
-                // And then smoothing it out and applying it to the character
+                // А затем сгладить его и применить к игроку
                 _input.Rigidbody2D.velocity = Vector3.SmoothDamp(_input.Rigidbody2D.velocity, targetVelocity, ref m_Velocity, _input.MovementSmoothing);
+                _input.Animator.SetFloat(AnimatorAssociations.xVelocity, Mathf.Abs(_input.Rigidbody2D.velocity.x));
+                _input.Animator.SetFloat(AnimatorAssociations.yVelocity, _input.Rigidbody2D.velocity.y);
 
                 // Если входной сигнал перемещает игрока вправо, а игрок стоит лицом влево...
                 if (move > 0 && _orientation == OrientationLR.Left)
@@ -141,10 +167,11 @@ namespace SEC.Character.Controller
                 }
             }
             // Если игрок должен прыгнуть...
-            if (_isGrounded && jump)
+            if (IsGrounded && jump)
             {
                 // Добавить вертикальную силу к игроку
-                _isGrounded = false;
+                IsGrounded = false;
+                _input.Animator.SetTrigger(AnimatorAssociations.Jump);
                 _input.Rigidbody2D.AddForce(new Vector2(0f, _input.JumpForce));
             }
         }
@@ -166,19 +193,19 @@ namespace SEC.Character.Controller
         /// </summary>
         public void EggTake()
         {
-            var checkTake = Physics2D.OverlapCircle(_input.EggCheck.position, k_EggRadius);
+            var checkTake = Physics2D.OverlapCircleAll(_input.EggCheck.position, k_EggRadius);
             if (checkTake == null) return;
 
-            if (checkTake.gameObject.layer == LayerAssociations.Egg)
+            if (checkTake.Any(obj => obj.gameObject.layer == LayerAssociations.Egg))
             {
                 IsEggTake = true;
                 _input.OnTakeEgg.Invoke(true);
             }
-            else if (checkTake.gameObject.layer is LayerAssociations.PlayerTakeEgg or LayerAssociations.PlayerEgg)
+            else
             {
-                checkTake.GetComponentInParent<PlayerInput>().OnKicked();
+                var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg);
+                if (obj != null) obj.GetComponentInParent<PlayerInput>().OnKicked();
             }
-
         }
 
         /// <summary>
@@ -239,5 +266,8 @@ namespace SEC.Character.Controller
             _imunable = true;
             TimersPool.GetInstance().StartTimer(() => _imunable = false, _input.ImmunityTime);
         }
+
+        #endregion
+
     }
 }
