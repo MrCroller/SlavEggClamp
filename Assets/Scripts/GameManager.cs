@@ -61,20 +61,17 @@ namespace SEC
         {
             TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[0].length);
             Audio.clip = fightMusic[0];
-            Audio.Play();
 
             void MusicPlay2()
             {
                 TimersPool.GetInstance().StartTimer(MusicPlay3, fightMusic[1].length);
                 Audio.clip = fightMusic[1];
-                Audio.Play();
             }
 
             void MusicPlay3()
             {
                 TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[2].length);
                 Audio.clip = fightMusic[2];
-                Audio.Play();
             }
         }
 

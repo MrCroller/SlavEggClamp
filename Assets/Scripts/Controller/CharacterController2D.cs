@@ -244,7 +244,7 @@ namespace SEC.Character.Controller
         {
             IsEggTake = false;
 
-            AddImmunable(_input.ImmunityTime * 1.5f);
+            AddImmunable(_input.ImmunityTime);
             _input.OnKick.Invoke();
             EggInput.OnTake.Invoke(false);
 
