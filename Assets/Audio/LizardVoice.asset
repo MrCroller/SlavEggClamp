@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa0fd3cc8f53d947a67f6275f5ed5bc, type: 3}
+  m_Name: LizardVoice
+  m_EditorClassIdentifier: 
+  Spawn: {fileID: 8300000, guid: cb380986e9a919f41bcd687025fb7a1b, type: 3}
+  Kick: {fileID: 8300000, guid: d136af723f14e2d4e8c96c9e9571756b, type: 3}
+  Throw: {fileID: 8300000, guid: df6e98f7480c6bd4389edc570f832c2a, type: 3}
+  Win: {fileID: 8300000, guid: 2c7c2d252536780409171031cc3e396e, type: 3}
