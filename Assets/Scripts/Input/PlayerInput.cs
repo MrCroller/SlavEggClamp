@@ -1,10 +1,11 @@
 ﻿using SEC.Associations;
 using SEC.Character.Controller;
 using SEC.Enum;
+using SEC.Helpers;
+using SEC.SO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 
 namespace SEC.Character.Input
@@ -69,6 +70,10 @@ namespace SEC.Character.Input
         [field: SerializeField] public Transform EggCheck { get; private set; }
         [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
+        [field: SerializeField] public AudioSource AudioSourceEffect { get; private set; }
+        [field: SerializeField] public PlayerEffectAudioData EffectAudioData { get; private set; }
+        [field: SerializeField] public AudioSource AudioSourceVoice { get; private set; }
+        [field: SerializeField] public PlayerVoiceAudioData VoiceAudioData { get; private set; }
 
         public Rigidbody2D Rigidbody2D { get; private set; }
 
@@ -109,6 +114,7 @@ namespace SEC.Character.Input
             Jump.Enable();
             Hand.Enable();
 
+            _controller.VoicePlay(VoiceAudioData.Spawn);
             _controller.AddImmunable(ImmunityTime);
         }
 
@@ -155,6 +161,8 @@ namespace SEC.Character.Input
         public void OnHand(InputAction.CallbackContext _) => _controller.Hand();
 
         public void OnKicked() => _controller.Kicked();
+
+        public void Win() => _controller.VoicePlay(VoiceAudioData.Win);
 
         #endregion
 

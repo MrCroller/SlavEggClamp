@@ -2,6 +2,7 @@
 using SEC.Associations;
 using SEC.Character.Input;
 using SEC.Enum;
+using SEC.Helpers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngineTimers;
@@ -19,18 +20,18 @@ namespace SEC.Character.Controller
 
         const float k_GroundedRadius = .2f;           // Радиус круга перекрытия для определения заземления
         const float k_CeilingRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок встать
-        const float k_EggRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
+        const float k_EggRadius = .4f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
 
         public bool IsEggTake
         {
             get => _isEggTake;
             set
             {
+                _input.Animator.SetBool(AnimatorAssociations.isEggTake, value);
                 _input.gameObject.layer = value ? LayerAssociations.PlayerTakeEgg : LayerAssociations.Player;
                 _input.MinimapIcon.color = value ? Color.white : _saveMinimapColor;
 
                 _isEggTake = value;
-                _input.Animator.SetBool(AnimatorAssociations.isEggTake, value);
                 EggInput.OnTake.Invoke(value);
             }
         }
@@ -150,8 +151,10 @@ namespace SEC.Character.Controller
                 Vector3 targetVelocity = new Vector2(move * 10f, _input.Rigidbody2D.velocity.y);
                 // А затем сгладить его и применить к игроку
                 _input.Rigidbody2D.velocity = Vector3.SmoothDamp(_input.Rigidbody2D.velocity, targetVelocity, ref m_Velocity, _input.MovementSmoothing);
+
                 _input.Animator.SetFloat(AnimatorAssociations.xVelocity, Mathf.Abs(_input.Rigidbody2D.velocity.x));
                 _input.Animator.SetFloat(AnimatorAssociations.yVelocity, _input.Rigidbody2D.velocity.y);
+                AudioEffectPlay(_input.EffectAudioData.Move);
 
                 // Если входной сигнал перемещает игрока вправо, а игрок стоит лицом влево...
                 if (move > 0 && _orientation == OrientationLR.Left)
@@ -171,13 +174,18 @@ namespace SEC.Character.Controller
             {
                 // Добавить вертикальную силу к игроку
                 IsGrounded = false;
+
                 _input.Animator.SetTrigger(AnimatorAssociations.Jump);
+                AudioEffectPlay(_input.EffectAudioData.Jump);
+
                 _input.Rigidbody2D.AddForce(new Vector2(0f, _input.JumpForce));
             }
         }
 
         public void Hand()
         {
+            AudioEffectPlay(_input.EffectAudioData.Hand);
+
             if (IsEggTake)
             {
                 EggThrow();
@@ -204,7 +212,11 @@ namespace SEC.Character.Controller
             else
             {
                 var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg);
-                if (obj != null) obj.GetComponentInParent<PlayerInput>().OnKicked();
+                if (obj != null)
+                {
+                    VoicePlay(_input.VoiceAudioData.Kick);
+                    obj.GetComponentInParent<PlayerInput>().OnKicked();
+                }
             }
         }
 
@@ -214,6 +226,10 @@ namespace SEC.Character.Controller
         public void EggThrow()
         {
             IsEggTake = false;
+
+            AudioEffectPlay(_input.EffectAudioData.Throw);
+            VoicePlay(_input.VoiceAudioData.Throw);
+
             _input.OnThrowEgg.Invoke(_input.EggCheck.position,
                                      new Vector2(
                                          _orientation == OrientationLR.Right ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
@@ -226,10 +242,9 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Kicked()
         {
-            AddImmunable(_input.ImmunityTime);
-
             IsEggTake = false;
 
+            AddImmunable(_input.ImmunityTime);
             _input.OnKick.Invoke();
             EggInput.OnTake.Invoke(false);
 
@@ -243,8 +258,11 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Bump(float forse)
         {
+            //AudioEffectPlay(_input.EffectAudioData.Bump);
+
             if (forse > _input.ForseToDeath && !_imunable)
             {
+                AudioEffectPlay(_input.EffectAudioData.Death);
                 _input.OnDeath.Invoke();
             }
         }
@@ -253,6 +271,16 @@ namespace SEC.Character.Controller
         {
             _imunable = true;
             TimersPool.GetInstance().StartTimer(() => _imunable = false, time);
+        }
+
+        public void VoicePlay(AudioClip audio)
+        {
+            _input.AudioSourceVoice.Play(audio);
+        }
+
+        public void AudioEffectPlay(AudioClip audio)
+        {
+            _input.AudioSourceEffect.Play(audio);
         }
 
         private void Flip()

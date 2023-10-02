@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785014b7e11641a48897fc2569249c8f, type: 3}
+  m_Name: BogatyrAudioEffect
+  m_EditorClassIdentifier: 
+  Move: {fileID: 8300000, guid: a11f0bfc13f0bf842ad7becc7da88b7c, type: 3}
+  Jump: {fileID: 8300000, guid: 9a8c233457b6f7f40bb732c284217ea0, type: 3}
+  Hand: {fileID: 8300000, guid: 0437e6f822bf44a4284b66d9f32c4583, type: 3}
+  Throw: {fileID: 8300000, guid: b24b8d2bc1209714c80dc47abf3eca94, type: 3}
+  Bump: {fileID: 0}
+  Death: {fileID: 8300000, guid: fbe59d60b11a1464e95c81c3fe10e832, type: 3}
+  Win: {fileID: 0}
