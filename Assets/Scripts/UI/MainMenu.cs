@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SEC.Helpers;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngineTimers;
 
@@ -6,6 +7,7 @@ namespace SEC.UI
 {
     public class MainMenu : MonoBehaviour
     {
+
         public GameObject mainMenu;
         public GameObject optionMenu;
 
@@ -27,13 +29,13 @@ namespace SEC.UI
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);
 
-            Audio.clip = clip1;
-            TimersPool.GetInstance().StartTimer(MusicEnd, clip1.length);
+            TimersPool.GetInstance().StartTimer(MusicEnd, clip1.length - .05f);
+            Audio.Play(clip1);
 
             void MusicEnd()
             {
+                Audio.Play(clip2);
                 Audio.loop = true;
-                Audio.clip = clip2;
             }
         }
 

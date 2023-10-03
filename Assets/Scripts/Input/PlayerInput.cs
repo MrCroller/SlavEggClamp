@@ -1,7 +1,7 @@
 ﻿using SEC.Associations;
 using SEC.Character.Controller;
+using SEC.Controller;
 using SEC.Enum;
-using SEC.Helpers;
 using SEC.SO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -88,9 +88,11 @@ namespace SEC.Character.Input
         public UnityEvent OnKick;
         public UnityEvent OnDeath;
 
+        [HideInInspector] public bool IsControlable = true;
         private CharacterController2D _controller;
         private float _horizontalMove;
         private bool _jump;
+        private float _linearDragSave;
 
         #endregion
 
@@ -101,6 +103,7 @@ namespace SEC.Character.Input
         {
             Rigidbody2D ??= GetComponent<Rigidbody2D>();
             _controller = new CharacterController2D(this);
+            _linearDragSave = Rigidbody2D.drag;
 
             OnDeath ??= new();
 
@@ -110,6 +113,9 @@ namespace SEC.Character.Input
 
         private void OnEnable()
         {
+            IsControlable = true;
+            Rigidbody2D.drag = _linearDragSave;
+
             Move.Enable();
             Jump.Enable();
             Hand.Enable();
@@ -132,6 +138,8 @@ namespace SEC.Character.Input
         private void FixedUpdate()
         {
             _controller.Execute();
+
+            if (!IsControlable) return;
             _controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump);
             _jump = false;
         }
@@ -155,14 +163,25 @@ namespace SEC.Character.Input
 
         #region EventHandlers
 
-        public void OnJump(InputAction.CallbackContext _) => _jump = true;
+        public void OnJump(InputAction.CallbackContext _)
+        {
+            if (!IsControlable) return;
+            _jump = true;
+        }
 
-
-        public void OnHand(InputAction.CallbackContext _) => _controller.Hand();
+        public void OnHand(InputAction.CallbackContext _)
+        {
+            if (!IsControlable) return;
+            _controller.Hand();
+        }
 
         public void OnKicked() => _controller.Kicked();
 
-        public void Win() => _controller.VoicePlay(VoiceAudioData.Win);
+        public void Win()
+        {
+            _controller.VoicePlay(VoiceAudioData.Win);
+            GameController.EndGame.Invoke(VoiceAudioData.Win.length);
+        }
 
         #endregion
 

@@ -8,10 +8,13 @@ namespace SEC.Associations
 {
     public static class AnimatorAssociations
     {
-        public const string Jump    = "onJumping";
+        public const string Jump       = "onJumping";
         public const string isEggTake  = "isEggTake";
         public const string isGrounded = "isGrounded";
         public const string xVelocity  = "xVelocity";
         public const string yVelocity  = "yVelocity";
+        public const string Dead       = "onDead";
+        public const string Bump       = "onBump";
+        public const string Kick       = "onKick";
     }
 }

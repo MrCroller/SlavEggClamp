@@ -3,6 +3,7 @@ using SEC.Associations;
 using SEC.Character.Input;
 using SEC.Enum;
 using SEC.Helpers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngineTimers;
@@ -56,6 +57,7 @@ namespace SEC.Character.Controller
         /// Иммунитет к уничтожению
         /// </summary>
         private bool _imunable = false;
+        private TimersPool _timers;
 
         private Color _saveMinimapColor;
 
@@ -74,6 +76,8 @@ namespace SEC.Character.Controller
             _input.OnCrouchEvent ??= new UnityEvent<bool>();
             _input.OnTakeEgg ??= new UnityEvent<bool>();
             _input.OnThrowEgg ??= new UnityEvent<Vector2, Vector2>();
+
+            _timers = TimersPool.GetInstance();
 
             _saveMinimapColor = _input.MinimapIcon.color;
         }
@@ -154,7 +158,7 @@ namespace SEC.Character.Controller
 
                 _input.Animator.SetFloat(AnimatorAssociations.xVelocity, Mathf.Abs(_input.Rigidbody2D.velocity.x));
                 _input.Animator.SetFloat(AnimatorAssociations.yVelocity, _input.Rigidbody2D.velocity.y);
-                AudioEffectPlay(_input.EffectAudioData.Move);
+                //AudioEffectPlay(_input.EffectAudioData.Move);
 
                 // Если входной сигнал перемещает игрока вправо, а игрок стоит лицом влево...
                 if (move > 0 && _orientation == OrientationLR.Left)
@@ -178,14 +182,12 @@ namespace SEC.Character.Controller
                 _input.Animator.SetTrigger(AnimatorAssociations.Jump);
                 AudioEffectPlay(_input.EffectAudioData.Jump);
 
-                _input.Rigidbody2D.AddForce(new Vector2(0f, _input.JumpForce));
+                _input.Rigidbody2D.AddForce(Vector2.up * _input.JumpForce);
             }
         }
 
         public void Hand()
         {
-            AudioEffectPlay(_input.EffectAudioData.Hand);
-
             if (IsEggTake)
             {
                 EggThrow();
@@ -215,6 +217,9 @@ namespace SEC.Character.Controller
                 if (obj != null)
                 {
                     VoicePlay(_input.VoiceAudioData.Kick);
+                    AudioEffectPlay(_input.EffectAudioData.Hand);
+                    _input.Animator.SetTrigger(AnimatorAssociations.Kick);
+
                     obj.GetComponentInParent<PlayerInput>().OnKicked();
                 }
             }
@@ -244,6 +249,8 @@ namespace SEC.Character.Controller
         {
             IsEggTake = false;
 
+            _input.Animator.SetTrigger(AnimatorAssociations.Bump);
+
             AddImmunable(_input.ImmunityTime);
             _input.OnKick.Invoke();
             EggInput.OnTake.Invoke(false);
@@ -258,19 +265,24 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Bump(float forse)
         {
-            //AudioEffectPlay(_input.EffectAudioData.Bump);
+            AudioEffectPlay(_input.EffectAudioData.Bump);
 
             if (forse > _input.ForseToDeath && !_imunable)
             {
+                _timers.StartTimer(
+                    () => _input.OnDeath.Invoke(), 
+                    (value) => _input.Rigidbody2D.drag = 80f, 
+                    2f);
                 AudioEffectPlay(_input.EffectAudioData.Death);
-                _input.OnDeath.Invoke();
+                _input.IsControlable = false;
+                _input.Animator.SetTrigger(AnimatorAssociations.Dead);
             }
         }
 
         public void AddImmunable(float time)
         {
             _imunable = true;
-            TimersPool.GetInstance().StartTimer(() => _imunable = false, time);
+            _timers.StartTimer(() => _imunable = false, time);
         }
 
         public void VoicePlay(AudioClip audio)

@@ -6,10 +6,13 @@ namespace SEC.UI
 {
     public class OptionManager : MonoBehaviour
     {
-        public const string MixerMaster = "MasterVolume";
-        public const string MixerMusic = "MusicVolume";
-        public const string MixerEffect = "EffectVolume";
-        public const string MixerVoice = "VoiceVolume";
+        public const string MIXER_MASTER = "MasterVolume";
+        public const string MIXER_MUSIC = "MusicVolume";
+        public const string MIXER_EFFECT = "EffectVolume";
+        public const string MIXER_VOICE = "VoiceVolume";
+
+        public const float MIN_SOUND_VELOCITY = -50f;
+        public const float MAX_SOUND_VELOCITY = 0f;
 
         public Slider sliderMaster;
         public Slider sliderMusic;
@@ -20,22 +23,20 @@ namespace SEC.UI
 
         private void Start()
         {
-            float value = 0f;
-
-            AudioMixer.GetFloat(MixerMaster, out value);
-            sliderMaster.value = value;
+            AudioMixer.GetFloat(MIXER_MASTER, out float value);
+            sliderMaster.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
             sliderMaster.onValueChanged.AddListener(ChangeMasterVolume);
 
-            AudioMixer.GetFloat(MixerMusic, out value);
-            sliderMusic.value = value;
+            AudioMixer.GetFloat(MIXER_MUSIC, out value);
+            sliderMusic.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
             sliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
 
-            AudioMixer.GetFloat(MixerEffect, out value);
-            sliderEffect.value = value;
+            AudioMixer.GetFloat(MIXER_EFFECT, out value);
+            sliderEffect.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
             sliderEffect.onValueChanged.AddListener(ChangeEffectVolume);
 
-            AudioMixer.GetFloat(MixerVoice, out value);
-            sliderVoice.value = value;
+            AudioMixer.GetFloat(MIXER_VOICE, out value);
+            sliderVoice.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
             sliderVoice.onValueChanged.AddListener(ChangeVoiceVolume);
         }
 
@@ -49,23 +50,22 @@ namespace SEC.UI
 
         private void ChangeMasterVolume(float volume)
         {
-            AudioMixer.SetFloat(MixerMaster, volume);
+            AudioMixer.SetFloat(MIXER_MASTER, Mathf.Lerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, volume));
         }
 
         private void ChangeMusicVolume(float volume)
         {
-            AudioMixer.SetFloat(MixerMusic, volume);
+            AudioMixer.SetFloat(MIXER_MUSIC, Mathf.Lerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, volume));
         }
 
         private void ChangeEffectVolume(float volume)
         {
-            AudioMixer.SetFloat(MixerEffect, volume);
+            AudioMixer.SetFloat(MIXER_EFFECT, Mathf.Lerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, volume));
         }
 
         private void ChangeVoiceVolume(float volume)
         {
-            AudioMixer.SetFloat(MixerVoice, volume);
+            AudioMixer.SetFloat(MIXER_VOICE, Mathf.Lerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, volume));
         }
-
     }
 }

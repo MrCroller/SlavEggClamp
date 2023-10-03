@@ -427,6 +427,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  IsControlable: 1
 --- !u!50 &300193080192565481
 Rigidbody2D:
   serializedVersion: 4

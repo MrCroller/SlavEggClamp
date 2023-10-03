@@ -1,5 +1,6 @@
 ﻿using SEC.Character;
 using SEC.Controller;
+using SEC.Helpers;
 using SEC.Input;
 using SEC.UI;
 using UnityEngine;
@@ -59,19 +60,19 @@ namespace SEC
 
         private void Start()
         {
-            TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[0].length);
-            Audio.clip = fightMusic[0];
+            TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[0].length - .05f);
+            Audio.Play(fightMusic[0]);
 
             void MusicPlay2()
             {
-                TimersPool.GetInstance().StartTimer(MusicPlay3, fightMusic[1].length);
-                Audio.clip = fightMusic[1];
+                TimersPool.GetInstance().StartTimer(MusicPlay3, fightMusic[1].length - .05f);
+                Audio.Play(fightMusic[1]);
             }
 
             void MusicPlay3()
             {
-                TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[2].length);
-                Audio.clip = fightMusic[2];
+                TimersPool.GetInstance().StartTimer(MusicPlay2, fightMusic[2].length - .05f);
+                Audio.Play(fightMusic[2]);
             }
         }
 

@@ -6,6 +6,7 @@ using SEC.Character.Input;
 using SEC.Enum;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngineTimers;
 
 
@@ -13,6 +14,8 @@ namespace SEC.Controller
 {
     public class GameController : IDisposable
     {
+        public static UnityEvent<float> EndGame;
+
         private UnityEvent<OrientationLR> _onBorderExitAnim;
         private UnityEvent<OrientationLR> _onBorderExit;
         private BoxCollider2D _leftBorder;
@@ -34,6 +37,7 @@ namespace SEC.Controller
                               BoxCollider2D rightBorder)
         {
             _players = manager.Players;
+            EndGame = new();
 
             foreach (var player in _players)
             {
@@ -52,12 +56,14 @@ namespace SEC.Controller
 
             _onBorderExit.AddListener(OnBorderExit);
             _onBorderExitAnim.AddListener(SpawnAllPlayer);
+            EndGame.AddListener(RestartGame);
         }
 
         public void Dispose()
         {
             _onBorderExit.RemoveListener(OnBorderExit);
             _onBorderExitAnim.RemoveListener(SpawnAllPlayer);
+            EndGame.RemoveListener(RestartGame);
 
             foreach (var player in _players)
             {
@@ -101,8 +107,6 @@ namespace SEC.Controller
 
         private void SpawnAllPlayer(OrientationLR orientation)
         {
-
-
             Vector2 save = orientation == OrientationLR.Right ? _spawnPointRight.position : _spawnPointLeft.position;
             foreach (var player in _playersDeathList)
             {
@@ -116,6 +120,22 @@ namespace SEC.Controller
         {
             _leftBorder.excludeLayers = mask;
             _rightBorder.excludeLayers = mask;
+        }
+
+        private void RestartGame(float timeForEnd)
+        {
+            TimersPool.GetInstance().StartTimer(
+                () => 
+                    {
+                        Time.timeScale = 1f;
+                        SceneManager.LoadScene(0);
+                    }, 
+                (value) =>
+                    {
+                        if(Time.timeScale > 0.2f)
+                    Time.timeScale = .8f - value;
+                    },
+                timeForEnd);
         }
     }
 }
