@@ -6,6 +6,9 @@
 
 ## Установка:
 
+![Static Badge](https://img.shields.io/badge/windows-black?style=for-the-badge&logo=windows&color=%230D1117)
+![Static Badge](https://img.shields.io/badge/MacOS-black?style=for-the-badge&logo=apple&color=%230D1117)
+
 1. Скачать нужную версию из релизов
 2. Распаковать
 3. Запустить SlavEggClamp.exe / SlavEggClampMac.app для Mac
@@ -33,39 +36,38 @@
 ## Dev
 
 <a href="https://t.me/MrCroller"><img align="right" src="https://avatars.githubusercontent.com/u/58171847?v=4" height="90" frameBorder="0" class="giphy-embed" allowFullScreen></img></p>
+[![Static Badge](https://img.shields.io/badge/Mr.Croller-Game_Developer-black?style=for-the-badge&labelColor=%230D1117&color=%23513B77)](https://github.com/MrCroller)
 
-[![Static Badge](https://img.shields.io/badge/Game_Developer-Mr.Croller-black?style=for-the-badge&labelColor=%23513B77&color=%230D1117)](https://github.com/MrCroller)
+[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&color=%230D1117)](https://unity.com)
+[![Static Badge](https://img.shields.io/badge/C%23-p?style=flat-square&color=%230D1117)](https://learn.microsoft.com/ru-ru/dotnet/csharp/)
+[![Static Badge](https://img.shields.io/badge/Visual_Studio-purple?style=flat-square&logo=visualstudio&color=%230D1117)](https://visualstudio.microsoft.com/ru/)
 
-[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&link=https%3A%2F%2Funity.com)](https://unity.com)
-[![Static Badge](https://img.shields.io/badge/C%23-p?style=flat-square&color=%23682178&link=https%3A%2F%2Flearn.microsoft.com%2Fru-ru%2Fdotnet%2Fcsharp%2F)](https://learn.microsoft.com/ru-ru/dotnet/csharp/)
-[![Static Badge](https://img.shields.io/badge/Visual_Studio-purple?style=flat-square&logo=visualstudio&logoColor=%23CE98FA&color=%23513B77)](https://visualstudio.microsoft.com/ru/)
 
-______________________________________________________________________________________________________________________________________________________________
+<a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
+[![Static Badge](https://img.shields.io/badge/Admiral4Header-Game_Designer-black?style=for-the-badge&labelColor=%230D1117&color=f40c36)](https://github.com/Admiral4Header)
 <a href="https://discordapp.com/users/275344786209243137/"><img align="right" src="https://avatars.githubusercontent.com/u/116684700?v=4" height="90" frameBorder="0" class="giphy-embed" allowFullScreen></img></p>
 
-[![Static Badge](https://img.shields.io/badge/Game_Designer-Admiral4Header-black?style=for-the-badge&labelColor=F40C36&color=%230D1117)](https://github.com/Admiral4Header)
-
-[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&link=https%3A%2F%2Funity.com)](https://unity.com)
+[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&color=%230D1117)](https://unity.com)
 
 
-______________________________________________________________________________________________________________________________________________________________
+<a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
-[![Static Badge](https://img.shields.io/badge/Art-ces__calasss-black?style=for-the-badge&labelColor=efd09b&color=%230D1117)](https://t.me/ces_calasss)
+[![Static Badge](https://img.shields.io/badge/ces__calasss-Art-black?style=for-the-badge&labelColor=%230D1117&color=%23EFD09B)](https://t.me/ces_calasss)
 
-[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&link=https%3A%2F%2Funity.com)](https://unity.com)
-![Static Badge](https://img.shields.io/badge/PotiPoti-black?style=flat-square&color=%23F9E200)
+[![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&color=%230D1117)](https://unity.com)
+![Static Badge](https://img.shields.io/badge/PotiPoti-black?style=flat-square&color=%230D1117)
 
 
-______________________________________________________________________________________________________________________________________________________________
+<a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
 <a href="https://vk.com/zhora_granzh"><img align="right" src="https://sun9-18.userapi.com/impg/2yVeCxOFSNhquDM4u0wf-dT38MSUaxrCVubXYQ/yL1UKYib4TY.jpg?size=2160x2160&quality=96&sign=57dfa3768595c7d45ab6607e42561df4&type=album" height="90" frameBorder="0" class="giphy-embed" allowFullScreen></img></p>
 
-[![Static Badge](https://img.shields.io/badge/Sound_Designer-Granzh-black?style=for-the-badge&labelColor=f0cfe0&color=%230D1117)](https://vk.com/zhora_granzh)
+[![Static Badge](https://img.shields.io/badge/Granzh-Sound_Designer-black?style=for-the-badge&labelColor=%230D1117&color=%23F0CFE0)](https://vk.com/zhora_granzh)
 
-[![Static Badge](https://img.shields.io/badge/Logic_Pro-black?style=flat-square&logo=apple&color=1B1B1D)](https://www.apple.com/logic-pro/)
+[![Static Badge](https://img.shields.io/badge/Logic_Pro-black?style=flat-square&logo=apple&color=%230D1117)](https://www.apple.com/logic-pro/)
 
----
+<a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
   <!--
 
