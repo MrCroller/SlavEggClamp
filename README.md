@@ -9,7 +9,7 @@
 ![Static Badge](https://img.shields.io/badge/windows-black?style=for-the-badge&logo=windows&color=%230D1117)
 ![Static Badge](https://img.shields.io/badge/MacOS-black?style=for-the-badge&logo=apple&color=%230D1117)
 
-1. Скачать нужную версию из [релизов](https://github.com/MrCroller/SlavEggClamp/releases)
+1. Скачать нужную версию из релизов
 2. Распаковать
 3. Запустить SlavEggClamp.exe / SlavEggClampMac.app для Mac
 
