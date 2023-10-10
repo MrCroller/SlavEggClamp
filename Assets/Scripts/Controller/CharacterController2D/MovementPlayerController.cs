@@ -1,12 +1,10 @@
 ﻿using System.Linq;
 using SEC.Associations;
 using SEC.Character.Input;
-using SEC.Enum;
-using SEC.Helpers;
-using TMPro;
+using SEC.Controller;
+using SEC.Enums;
+using SEC.SO;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngineTimers;
 
 
 namespace SEC.Character.Controller
@@ -14,7 +12,7 @@ namespace SEC.Character.Controller
     /// <summary>
     /// by Brackeys
     /// </summary>
-    public class CharacterController2D
+    public partial class CharacterController2D : IMovable, IExecuteLater
     {
 
         #region Properties
@@ -28,12 +26,12 @@ namespace SEC.Character.Controller
             get => _isEggTake;
             set
             {
-                _input.Animator.SetBool(AnimatorAssociations.isEggTake, value);
-                _input.gameObject.layer = value ? LayerAssociations.PlayerTakeEgg : LayerAssociations.Player;
-                _input.MinimapIcon.color = value ? Color.white : _saveMinimapColor;
+                Input.Animator.SetBool(AnimatorAssociations.isEggTake, value);
+                Input.gameObject.layer = value ? LayerAssociations.PlayerTakeEgg : LayerAssociations.Player;
+                Input.MinimapIcon.color = value ? Color.white : _saveMinimapColor;
 
                 _isEggTake = value;
-                EggInput.OnTake.Invoke(value);
+                _eggEvents.OnTake.Invoke(value);
             }
         }
 
@@ -43,9 +41,16 @@ namespace SEC.Character.Controller
             set
             {
                 _isGrounded = value;
-                _input.Animator.SetBool(AnimatorAssociations.isGrounded, value);
+                Input.Animator.SetBool(AnimatorAssociations.isGrounded, value);
             }
         }
+
+        #endregion
+
+
+        #region Fields
+
+        public readonly MovementSetting MovementSetting;
 
         private bool _isEggTake = false;
         private bool _isGrounded;                      // На земле ли игрок
@@ -53,73 +58,44 @@ namespace SEC.Character.Controller
         private bool _isWasCrouching = false;
         private Vector3 m_Velocity = Vector3.zero;
 
-        /// <summary>
-        /// Иммунитет к уничтожению
-        /// </summary>
-        private bool _imunable = false;
-        private TimersPool _timers;
-
-        private Color _saveMinimapColor;
-
-        private PlayerInput _input;
-
-        #endregion
-
-
-        #region ClassLifeCicle
-
-        public CharacterController2D(PlayerInput input)
-        {
-            _input = input;
-
-            _input.OnLandEvent ??= new UnityEvent();
-            _input.OnCrouchEvent ??= new UnityEvent<bool>();
-            _input.OnTakeEgg ??= new UnityEvent<bool>();
-            _input.OnThrowEgg ??= new UnityEvent<Vector2, Vector2>();
-
-            _timers = TimersPool.GetInstance();
-
-            _saveMinimapColor = _input.MinimapIcon.color;
-        }
-
-        public void Execute()
-        {
-            bool wasGrounded = IsGrounded;
-            //IsGrounded = false;
-
-            // Игрок заземляется, если при передаче круга в позицию для проверки земли он попадает во что-либо, обозначенное как земля
-            // Для этого можно использовать слои, но при этом Sample Assets не будет переписывать настройки проекта.
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(_input.GroundCheck.position, k_GroundedRadius, _input.WhatIsGround);
-            for (int i = 0; i < colliders.Length; i++)
-            {
-                if (colliders[i].gameObject != _input.Rigidbody2D.gameObject)
-                {
-                    IsGrounded = true;
-                    if (!wasGrounded)
-                        _input.OnLandEvent.Invoke();
-                }
-            }
-        }
-
         #endregion
 
 
         #region Methods
 
-        public void Move(float move, bool crouch, bool jump)
+        public void ExecuteLater()
         {
+            bool wasGrounded = IsGrounded;
+
+            // Игрок заземляется, если при передаче круга в позицию для проверки земли он попадает во что-либо, обозначенное как земля
+            // Для этого можно использовать слои, но при этом Sample Assets не будет переписывать настройки проекта.
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(Input.GroundCheck.position, k_GroundedRadius, Input.WhatIsGround);
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i].gameObject != Input.Rigidbody2D.gameObject)
+                {
+                    IsGrounded = true;
+                    if (!wasGrounded)
+                        Input.OnLandEvent.Invoke();
+                }
+            }
+        }
+
+        public void Move(float moven, bool crouch, bool jump)
+        {
+            var move = moven * MovementSetting.RunSpeed;
             // Если персонаж приседает, проверьте, может ли он встать.
             if (!crouch)
             {
                 // Если у персонажа есть потолок, не позволяющий ему встать, держите его приседающим
-                if (Physics2D.OverlapCircle(_input.GroundCheck.position, k_CeilingRadius, _input.WhatIsGround))
+                if (Physics2D.OverlapCircle(Input.GroundCheck.position, k_CeilingRadius, Input.WhatIsGround))
                 {
                     crouch = true;
                 }
             }
 
             //управлять персонажем только при включенном заземлении или AirControl
-            if (IsGrounded || _input.AirControl)
+            if (IsGrounded || MovementSetting.AirControl)
             {
 
                 // Если приседать
@@ -128,36 +104,36 @@ namespace SEC.Character.Controller
                     if (!_isWasCrouching)
                     {
                         _isWasCrouching = true;
-                        _input.OnCrouchEvent.Invoke(true);
+                        Input.OnCrouchEvent.Invoke(true);
                     }
 
                     // Уменьшить скорость на множитель crouchSpeed
-                    move *= _input.CrouchSpeed;
+                    move *= MovementSetting.CrouchSpeed;
 
                     // Отключить один из коллайдеров при приседании
-                    if (_input.CrouchDisableCollider != null)
-                        _input.CrouchDisableCollider.enabled = false;
+                    if (Input.CrouchDisableCollider != null)
+                        Input.CrouchDisableCollider.enabled = false;
                 }
                 else
                 {
                     // Включить коллайдер при отсутствии приседания
-                    if (_input.CrouchDisableCollider != null)
-                        _input.CrouchDisableCollider.enabled = true;
+                    if (Input.CrouchDisableCollider != null)
+                        Input.CrouchDisableCollider.enabled = true;
 
                     if (_isWasCrouching)
                     {
                         _isWasCrouching = false;
-                        _input.OnCrouchEvent.Invoke(false);
+                        Input.OnCrouchEvent.Invoke(false);
                     }
                 }
 
                 // Перемещение персонажа путем нахождения целевой скорости
-                Vector3 targetVelocity = new Vector2(move * 10f, _input.Rigidbody2D.velocity.y);
+                Vector3 targetVelocity = new Vector2(move * 10f, Input.Rigidbody2D.velocity.y);
                 // А затем сгладить его и применить к игроку
-                _input.Rigidbody2D.velocity = Vector3.SmoothDamp(_input.Rigidbody2D.velocity, targetVelocity, ref m_Velocity, _input.MovementSmoothing);
+                Input.Rigidbody2D.velocity = Vector3.SmoothDamp(Input.Rigidbody2D.velocity, targetVelocity, ref m_Velocity, MovementSetting.MovementSmoothing);
 
-                _input.Animator.SetFloat(AnimatorAssociations.xVelocity, Mathf.Abs(_input.Rigidbody2D.velocity.x));
-                _input.Animator.SetFloat(AnimatorAssociations.yVelocity, _input.Rigidbody2D.velocity.y);
+                Input.Animator.SetFloat(AnimatorAssociations.xVelocity, Mathf.Abs(Input.Rigidbody2D.velocity.x));
+                Input.Animator.SetFloat(AnimatorAssociations.yVelocity, Input.Rigidbody2D.velocity.y);
                 //AudioEffectPlay(_input.EffectAudioData.Move);
 
                 // Если входной сигнал перемещает игрока вправо, а игрок стоит лицом влево...
@@ -179,10 +155,10 @@ namespace SEC.Character.Controller
                 // Добавить вертикальную силу к игроку
                 IsGrounded = false;
 
-                _input.Animator.SetTrigger(AnimatorAssociations.Jump);
-                AudioEffectPlay(_input.EffectAudioData.Jump);
+                Input.Animator.SetTrigger(AnimatorAssociations.Jump);
+                AudioEffectPlay(Input.EffectAudioData.Jump);
 
-                _input.Rigidbody2D.AddForce(Vector2.up * _input.JumpForce);
+                Input.Rigidbody2D.AddForce(Vector2.up * MovementSetting.JumpForce);
             }
         }
 
@@ -203,22 +179,23 @@ namespace SEC.Character.Controller
         /// </summary>
         public void EggTake()
         {
-            var checkTake = Physics2D.OverlapCircleAll(_input.EggCheck.position, k_EggRadius);
+            var checkTake = Physics2D.OverlapCircleAll(Input.EggCheck.position, k_EggRadius);
             if (checkTake == null) return;
+
 
             if (checkTake.Any(obj => obj.gameObject.layer == LayerAssociations.Egg))
             {
                 IsEggTake = true;
-                _input.OnTakeEgg.Invoke(true);
+                Input.OnTakeEgg.Invoke(true);
             }
             else
             {
                 var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg);
                 if (obj != null)
                 {
-                    VoicePlay(_input.VoiceAudioData.Kick);
-                    AudioEffectPlay(_input.EffectAudioData.Hand);
-                    _input.Animator.SetTrigger(AnimatorAssociations.Kick);
+                    VoicePlay(Input.VoiceAudioData.Kick);
+                    AudioEffectPlay(Input.EffectAudioData.Hand);
+                    Input.Animator.SetTrigger(AnimatorAssociations.Kick);
 
                     obj.GetComponentInParent<PlayerInput>().OnKicked();
                 }
@@ -232,14 +209,13 @@ namespace SEC.Character.Controller
         {
             IsEggTake = false;
 
-            AudioEffectPlay(_input.EffectAudioData.Throw);
-            VoicePlay(_input.VoiceAudioData.Throw);
+            AudioEffectPlay(Input.EffectAudioData.Throw);
+            VoicePlay(Input.VoiceAudioData.Throw);
 
-            _input.OnThrowEgg.Invoke(_input.EggCheck.position,
+            Input.OnThrowEgg.Invoke(Input.EggThrowPoint.position,
                                      new Vector2(
-                                         _orientation == OrientationLR.Right ? _input.ForseThrowEgg : -_input.ForseThrowEgg,
+                                         _orientation == OrientationLR.Right ? MovementSetting.ForseThrowEgg : -MovementSetting.ForseThrowEgg,
                                          0f));
-            AddImmunable(_input.ImmunityTime);
         }
 
         /// <summary>
@@ -249,15 +225,15 @@ namespace SEC.Character.Controller
         {
             IsEggTake = false;
 
-            _input.Animator.SetTrigger(AnimatorAssociations.Bump);
+            Input.Animator.SetTrigger(AnimatorAssociations.Bump);
 
-            AddImmunable(_input.ImmunityTime);
-            _input.OnKick.Invoke();
-            EggInput.OnTake.Invoke(false);
+            AddImmunable(MovementSetting.ImmunityTime);
+            Input.OnKick.Invoke();
+            _eggEvents.OnTake.Invoke(false);
 
-            Vector2 forsePush = new(_orientation == OrientationLR.Right ? _input.ForseKickedEgg : -_input.ForseKickedEgg, 0f);
-            _input.OnThrowEgg.Invoke(_input.EggCheck.position, forsePush / 2);
-            _input.Rigidbody2D.AddForce(forsePush * 4, ForceMode2D.Impulse);
+            Vector2 forsePush = new(_orientation == OrientationLR.Right ? MovementSetting.ForseKickedEgg : -MovementSetting.ForseKickedEgg, 0f);
+            Input.OnThrowEgg.Invoke(Input.EggCheck.position, forsePush / 2);
+            Input.Rigidbody2D.AddForce(forsePush * 4, ForceMode2D.Impulse);
         }
 
         /// <summary>
@@ -265,34 +241,12 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Bump(float forse)
         {
-            AudioEffectPlay(_input.EffectAudioData.Bump);
+            AudioEffectPlay(Input.EffectAudioData.Bump);
 
-            if (forse > _input.ForseToDeath && !_imunable)
+            if (forse > MovementSetting.ForseToDeath && !_imunable)
             {
-                _timers.StartTimer(
-                    () => _input.OnDeath.Invoke(), 
-                    (value) => _input.Rigidbody2D.drag = 80f, 
-                    2f);
-                AudioEffectPlay(_input.EffectAudioData.Death);
-                _input.IsControlable = false;
-                _input.Animator.SetTrigger(AnimatorAssociations.Dead);
+                Death();
             }
-        }
-
-        public void AddImmunable(float time)
-        {
-            _imunable = true;
-            _timers.StartTimer(() => _imunable = false, time);
-        }
-
-        public void VoicePlay(AudioClip audio)
-        {
-            _input.AudioSourceVoice.Play(audio);
-        }
-
-        public void AudioEffectPlay(AudioClip audio)
-        {
-            _input.AudioSourceEffect.Play(audio);
         }
 
         private void Flip()
@@ -301,9 +255,9 @@ namespace SEC.Character.Controller
             _orientation = (_orientation == OrientationLR.Right) ? OrientationLR.Left : OrientationLR.Right;
 
             // Умножить локальный масштаб x игрока на -1
-            Vector3 theScale = _input.Rigidbody2D.transform.localScale;
+            Vector3 theScale = Input.Rigidbody2D.transform.localScale;
             theScale.x *= -1;
-            _input.Rigidbody2D.transform.localScale = theScale;
+            Input.Rigidbody2D.transform.localScale = theScale;
         }
 
         #endregion

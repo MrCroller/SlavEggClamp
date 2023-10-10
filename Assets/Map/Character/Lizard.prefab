@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 3304693711767835633}
   m_Layer: 3
   m_Name: Lizard
-  m_TagString: Player
+  m_TagString: Lizard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,17 +422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ed5684c3b0a56498c15d85fb170c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 60
-  JumpForce: 900
-  <CrouchSpeed>k__BackingField: 0.36
-  <MovementSmoothing>k__BackingField: 0.05
-  <ForseThrowEgg>k__BackingField: 200
-  <ForseKickedEgg>k__BackingField: 50
-  <ForseToDeath>k__BackingField: 25
-  <DeathTime>k__BackingField: 3
-  <ImmunityTime>k__BackingField: 1.5
+  MovementSetting: {fileID: 0}
   HomeSide: 1
-  <AirControl>k__BackingField: 1
   Move:
     m_Name: Move
     m_Type: 0
@@ -507,12 +498,15 @@ MonoBehaviour:
   <CeilingCheck>k__BackingField: {fileID: 7588728650464517601}
   <CrouchDisableCollider>k__BackingField: {fileID: 0}
   <EggCheck>k__BackingField: {fileID: 681531306812139930}
+  <EggThrowPoint>k__BackingField: {fileID: 2702081664614045107}
   <MinimapIcon>k__BackingField: {fileID: 6525095849376246053}
   <Animator>k__BackingField: {fileID: 946065852472767347}
+  <MainSprite>k__BackingField: {fileID: 2422239539118666323}
   <AudioSourceEffect>k__BackingField: {fileID: 2817904015401613978}
-  <EffectAudioData>k__BackingField: {fileID: 11400000, guid: 4393e1706deea9f488e8a261e45256bd, type: 2}
+  <EffectAudioData>k__BackingField: {fileID: 11400000, guid: f03d4f802c368de4f89746a8516c8334, type: 2}
   <AudioSourceVoice>k__BackingField: {fileID: 1077753550552169523}
   <VoiceAudioData>k__BackingField: {fileID: 11400000, guid: 5a811788f386620449ddef1d2308e956, type: 2}
+  <Rigidbody2D>k__BackingField: {fileID: 300193080192565481}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -525,7 +519,7 @@ MonoBehaviour:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SEC.Character.EggInput, Assembly-CSharp
         m_MethodName: OnTakeHandler
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -555,6 +549,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  IsControlable: 1
 --- !u!50 &300193080192565481
 Rigidbody2D:
   serializedVersion: 4
@@ -778,6 +773,7 @@ Transform:
   - {fileID: 7588728650464517601}
   - {fileID: 681531306812139930}
   - {fileID: 7553274544868883587}
+  - {fileID: 2702081664614045107}
   m_Father: {fileID: 8886013987281205111}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8556218814368457938
@@ -854,7 +850,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1447234156, guid: 050196e431a217642b710554889c6b99, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -887,3 +883,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &8897398951918849393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2702081664614045107}
+  m_Layer: 3
+  m_Name: EggThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2702081664614045107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8897398951918849393}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.32, y: 0.34, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2220516100344551282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -3,7 +3,7 @@
 
 namespace SEC.SO
 {
-    [CreateAssetMenu(fileName = "AudioData", menuName = "Audio/PlayerEffectAudioData")]
+    [CreateAssetMenu(fileName = "AudioData", menuName = "SEC/Audio/PlayerEffectAudioData")]
     public class PlayerEffectAudioData : ScriptableObject
     {
         public AudioClip Move;

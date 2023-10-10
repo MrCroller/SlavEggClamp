@@ -1,4 +1,4 @@
-﻿namespace SEC.Enum
+﻿namespace SEC.Enums
 {
     public enum OrientationLR
     {

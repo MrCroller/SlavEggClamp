@@ -3,7 +3,7 @@
 
 namespace SEC.SO
 {
-    [CreateAssetMenu(fileName = "AudioData", menuName = "Audio/PlayerVoiceAudioData")]
+    [CreateAssetMenu(fileName = "AudioData", menuName = "SEC/Audio/PlayerVoiceAudioData")]
     public class PlayerVoiceAudioData : ScriptableObject
     {
         public AudioClip Spawn;

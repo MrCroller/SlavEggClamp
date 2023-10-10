@@ -6,12 +6,12 @@ namespace SEC.Map
 {
     public class TriggerInput : MonoBehaviour
     {
-        public UnityEvent TrigerEnter;
+        public UnityEvent<Collider2D> TrigerEnter;
 
 
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            TrigerEnter.Invoke();
+            TrigerEnter.Invoke(collision);
         }
     }
 }

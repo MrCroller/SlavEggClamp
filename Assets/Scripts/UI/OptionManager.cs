@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using SEC.Associations;
+using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SEC.UI
@@ -14,38 +16,47 @@ namespace SEC.UI
         public const float MIN_SOUND_VELOCITY = -50f;
         public const float MAX_SOUND_VELOCITY = 0f;
 
-        public Slider sliderMaster;
-        public Slider sliderMusic;
-        public Slider sliderEffect;
-        public Slider sliderVoice;
+        public Slider SliderMaster;
+        public Slider SliderMusic;
+        public Slider SliderEffect;
+        public Slider SliderVoice;
+
+        public Button RestartButton;
+        public Button ExitButton;
 
         [field: SerializeField] public AudioMixer AudioMixer { get; private set; }
 
         private void Start()
         {
             AudioMixer.GetFloat(MIXER_MASTER, out float value);
-            sliderMaster.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
-            sliderMaster.onValueChanged.AddListener(ChangeMasterVolume);
+            SliderMaster.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
+            SliderMaster.onValueChanged.AddListener(ChangeMasterVolume);
 
             AudioMixer.GetFloat(MIXER_MUSIC, out value);
-            sliderMusic.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
-            sliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
+            SliderMusic.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
+            SliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
 
             AudioMixer.GetFloat(MIXER_EFFECT, out value);
-            sliderEffect.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
-            sliderEffect.onValueChanged.AddListener(ChangeEffectVolume);
+            SliderEffect.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
+            SliderEffect.onValueChanged.AddListener(ChangeEffectVolume);
 
             AudioMixer.GetFloat(MIXER_VOICE, out value);
-            sliderVoice.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
-            sliderVoice.onValueChanged.AddListener(ChangeVoiceVolume);
+            SliderVoice.value = Mathf.InverseLerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, value);
+            SliderVoice.onValueChanged.AddListener(ChangeVoiceVolume);
+
+            RestartButton.onClick.AddListener(RestartButtonHandler);
+            ExitButton.onClick.AddListener(ExitButtonHandler);
         }
 
         private void OnDestroy()
         {
-            sliderMaster.onValueChanged.RemoveListener(ChangeMasterVolume);
-            sliderMusic.onValueChanged.RemoveListener(ChangeMusicVolume);
-            sliderVoice.onValueChanged.RemoveListener(ChangeVoiceVolume);
-            sliderEffect.onValueChanged.RemoveListener(ChangeEffectVolume);
+            SliderMaster.onValueChanged.RemoveListener(ChangeMasterVolume);
+            SliderMusic.onValueChanged.RemoveListener(ChangeMusicVolume);
+            SliderVoice.onValueChanged.RemoveListener(ChangeVoiceVolume);
+            SliderEffect.onValueChanged.RemoveListener(ChangeEffectVolume);
+
+            RestartButton.onClick.RemoveListener(RestartButtonHandler);
+            ExitButton.onClick.RemoveListener(ExitButtonHandler);
         }
 
         private void ChangeMasterVolume(float volume)
@@ -66,6 +77,16 @@ namespace SEC.UI
         private void ChangeVoiceVolume(float volume)
         {
             AudioMixer.SetFloat(MIXER_VOICE, Mathf.Lerp(MIN_SOUND_VELOCITY, MAX_SOUND_VELOCITY, volume));
+        }
+
+        private void RestartButtonHandler()
+        {
+            SceneManager.LoadScene(SceneAssociations.Game);
+        }
+
+        private void ExitButtonHandler()
+        {
+            Application.Quit();
         }
     }
 }

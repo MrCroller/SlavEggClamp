@@ -1,7 +1,6 @@
 ﻿using SEC.Associations;
 using SEC.Character.Controller;
-using SEC.Controller;
-using SEC.Enum;
+using SEC.Enums;
 using SEC.SO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,32 +12,14 @@ namespace SEC.Character.Input
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerInput : MonoBehaviour
     {
+
         #region Properties
 
-        [Header("Movement Setting")]
-        [SerializeField] public float RunSpeed = 40f;
-
-        /// <summary>
-        /// Величина силы, добавляемой при прыжке игрока
-        /// </summary>
-        [field: SerializeField] public float JumpForce = 400f;
-
-        /// <summary>
-        /// Величина maxSpeed, применяемая к движению приседания. 1 = 100%
-        /// </summary>
-        [Tooltip("Range = 0 <> 1")][field: SerializeField] public float CrouchSpeed { get; private set; } = .36f;
-
-        /// <summary>
-        /// Сколько нужно для сглаживания движения
-        /// </summary>
-        [Tooltip("Range = 0 <> 0.3")][field: SerializeField] public float MovementSmoothing { get; private set; } = .05f;
-        [field: SerializeField] public float ForseThrowEgg { get; private set; }
-        [field: SerializeField] public float ForseKickedEgg { get; private set; }
-        [Tooltip("Входящая сила достаточная что бы умереть")][field: SerializeField] public float ForseToDeath { get; private set; }
-        [field: SerializeField] public float DeathTime { get; private set; }
-        [field: SerializeField] public float ImmunityTime { get; private set; }
+        [Tooltip("Если не заполненно, то берется стандартный параметр из GameManager")]
+        public MovementSetting MovementSetting;
+        
+        [Tooltip("С какой стороны спавнится игрок")]
         public OrientationLR HomeSide;
-        [Tooltip("Может ли игрок управлять во время прыжка")][field: SerializeField] public bool AirControl { get; private set; } = true;
 
         [Header("Input Setting")]
         public InputAction Move;
@@ -68,6 +49,12 @@ namespace SEC.Character.Input
         /// Позиция, обозначающая место проверки яйца
         /// </summary>
         [field: SerializeField] public Transform EggCheck { get; private set; }
+
+        /// <summary>
+        /// Позиция из которой вылетает яйцо
+        /// </summary>
+        [field: SerializeField] public Transform EggThrowPoint { get; private set; }
+        [field: SerializeField] public SpriteRenderer MainSprite { get; private set; }
         [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public AudioSource AudioSourceEffect { get; private set; }
@@ -75,7 +62,7 @@ namespace SEC.Character.Input
         [field: SerializeField] public AudioSource AudioSourceVoice { get; private set; }
         [field: SerializeField] public PlayerVoiceAudioData VoiceAudioData { get; private set; }
 
-        public Rigidbody2D Rigidbody2D { get; private set; }
+        [field: SerializeField] public Rigidbody2D Rigidbody2D { get; private set; }
 
         [Header("Events")]
         [Space]
@@ -84,12 +71,11 @@ namespace SEC.Character.Input
         public UnityEvent<bool> OnCrouchEvent;
         public UnityEvent<bool> OnTakeEgg;
         public UnityEvent<Vector2, Vector2> OnThrowEgg;
-        [Space]
         public UnityEvent OnKick;
-        public UnityEvent OnDeath;
+        public UnityEvent<PlayerInput> OnDeath;
 
         [HideInInspector] public bool IsControlable = true;
-        private CharacterController2D _controller;
+        [HideInInspector] public IMovable Controller;
         private float _horizontalMove;
         private bool _jump;
         private float _linearDragSave;
@@ -101,11 +87,8 @@ namespace SEC.Character.Input
 
         private void Awake()
         {
-            Rigidbody2D ??= GetComponent<Rigidbody2D>();
-            _controller = new CharacterController2D(this);
+            Rigidbody2D = Rigidbody2D != null ? Rigidbody2D : GetComponent<Rigidbody2D>();
             _linearDragSave = Rigidbody2D.drag;
-
-            OnDeath ??= new();
 
             Jump.started += OnJump;
             Hand.started += OnHand;
@@ -119,9 +102,6 @@ namespace SEC.Character.Input
             Move.Enable();
             Jump.Enable();
             Hand.Enable();
-
-            _controller.VoicePlay(VoiceAudioData.Spawn);
-            _controller.AddImmunable(ImmunityTime);
         }
 
         private void OnDisable()
@@ -130,17 +110,16 @@ namespace SEC.Character.Input
             Jump.Disable();
             Hand.Disable();
         }
+
         private void Update()
         {
-            _horizontalMove = Move.ReadValue<float>() * RunSpeed;
+            _horizontalMove = Move.ReadValue<float>();
         }
 
         private void FixedUpdate()
         {
-            _controller.Execute();
-
             if (!IsControlable) return;
-            _controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump);
+            Controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump);
             _jump = false;
         }
 
@@ -154,7 +133,7 @@ namespace SEC.Character.Input
         {
             if (collision.gameObject.layer == LayerAssociations.Egg)
             {
-                _controller.Bump(collision.relativeVelocity.magnitude);
+                Controller.Bump(EggInput.Velocity);
             }
         }
 
@@ -172,16 +151,10 @@ namespace SEC.Character.Input
         public void OnHand(InputAction.CallbackContext _)
         {
             if (!IsControlable) return;
-            _controller.Hand();
+            Controller.Hand();
         }
 
-        public void OnKicked() => _controller.Kicked();
-
-        public void Win()
-        {
-            _controller.VoicePlay(VoiceAudioData.Win);
-            GameController.EndGame.Invoke(VoiceAudioData.Win.length);
-        }
+        public void OnKicked() => Controller.Kicked();
 
         #endregion
 

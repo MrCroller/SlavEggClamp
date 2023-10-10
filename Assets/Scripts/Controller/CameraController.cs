@@ -1,16 +1,19 @@
 ﻿using System;
-using SEC.Enum;
-using SEC.Input;
+using SEC.Enums;
+using SEC.Map;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngineTimers;
 
+
 namespace SEC.Controller
 {
-    public class CameraController : IDisposable
+    public sealed class CameraController : IDisposable
     {
-        public UnityEvent<OrientationLR> OnBorderExitAnim;
-        private UnityEvent<OrientationLR> _onBorderExit;
+        public readonly UnityEvent<OrientationLR> OnBorderExit;
+        public readonly UnityEvent OnAnimationEnd;
+
+        public bool LockTranslate = false;
 
         private Camera _camera;
         private float _animationTime;
@@ -23,37 +26,39 @@ namespace SEC.Controller
         private float _yPosition;
         private float _zPosition;
 
-        private bool _lookAnim = false;
-
         internal CameraController(CameraInput input)
         {
             _camera = input.Camera;
             _animationTime = input.AnimateTime;
             _easing = input.Easing;
 
-            _xTranslate = _camera.orthographicSize * 4f * (1f -input.PlayerTranslateRange);
+            _xTranslate = _camera.orthographicSize * 4f * (1f - input.TranslateRange);
             _yPosition = _camera.transform.position.y;
             _zPosition = _camera.transform.position.z;
 
-            OnBorderExitAnim = new();
-            _onBorderExit = input.OnBorderExit;
+            OnAnimationEnd = new();
+            OnBorderExit = input.OnBorderExit;
 
-            _onBorderExit.AddListener(Translate);
+            OnBorderExit.AddListener(Translate);
         }
 
         public void Dispose()
         {
-            _onBorderExit.RemoveListener(Translate);
+            OnBorderExit.RemoveListener(Translate);
         }
 
+        /// <summary>
+        /// Смещение камеры в сторону
+        /// </summary>
+        /// <param name="orientation"></param>
         public void Translate(OrientationLR orientation)
         {
-            if (_lookAnim) return;
+            if (LockTranslate) return;
 
             float saveXPosition = _camera.transform.position.x;
 
-            _lookAnim = true;
-            TimersPool.GetInstance().StartTimer(() => { _lookAnim = false; OnBorderExitAnim.Invoke(orientation); }, TranslateUp, _animationTime);
+            LockTranslate = true;
+            TimersPool.GetInstance().StartTimer(() => { LockTranslate = false; OnAnimationEnd.Invoke(); }, TranslateUp, _animationTime);
 
             void TranslateUp(float progress)
             {

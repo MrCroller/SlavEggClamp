@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1361348419713854}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,10 +255,10 @@ GameObject:
   - component: {fileID: 8909102685929935555}
   - component: {fileID: 300193080192565481}
   - component: {fileID: 7336356983268058219}
-  - component: {fileID: 7142052670691812028}
+  - component: {fileID: 6130568409525267620}
   m_Layer: 3
   m_Name: Bogatyr
-  m_TagString: Player
+  m_TagString: Bogatyr
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,17 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ed5684c3b0a56498c15d85fb170c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 60
-  JumpForce: 900
-  <CrouchSpeed>k__BackingField: 0.36
-  <MovementSmoothing>k__BackingField: 0.05
-  <ForseThrowEgg>k__BackingField: 200
-  <ForseKickedEgg>k__BackingField: 50
-  <ForseToDeath>k__BackingField: 25
-  <DeathTime>k__BackingField: 3
-  <ImmunityTime>k__BackingField: 1.5
+  MovementSetting: {fileID: 0}
   HomeSide: 0
-  <AirControl>k__BackingField: 1
   Move:
     m_Name: Move
     m_Type: 0
@@ -379,12 +370,15 @@ MonoBehaviour:
   <CeilingCheck>k__BackingField: {fileID: 7588728650464517601}
   <CrouchDisableCollider>k__BackingField: {fileID: 0}
   <EggCheck>k__BackingField: {fileID: 681531306812139930}
+  <EggThrowPoint>k__BackingField: {fileID: 8415212604353470961}
   <MinimapIcon>k__BackingField: {fileID: 4957601182099847251}
   <Animator>k__BackingField: {fileID: 4469934623745547945}
-  <AudioSourceEffect>k__BackingField: {fileID: 0}
+  <MainSprite>k__BackingField: {fileID: 1830474981404015856}
+  <AudioSourceEffect>k__BackingField: {fileID: 7926986084318655882}
   <EffectAudioData>k__BackingField: {fileID: 11400000, guid: 128c32eb6d0e97e4b858b59b2e5423e3, type: 2}
-  <AudioSourceVoice>k__BackingField: {fileID: 0}
+  <AudioSourceVoice>k__BackingField: {fileID: 8973116222254144524}
   <VoiceAudioData>k__BackingField: {fileID: 11400000, guid: 4d933b53d22b1034e8b069231c77c85f, type: 2}
+  <Rigidbody2D>k__BackingField: {fileID: 300193080192565481}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -487,7 +481,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.09601806, y: -0.3300326}
+  m_Offset: {x: 0.0024263859, y: -0.3300326}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -498,10 +492,10 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7530974, y: 2.611258}
+  m_Size: {x: 0.94998634, y: 2.611258}
   m_EdgeRadius: 0
---- !u!70 &7142052670691812028
-CapsuleCollider2D:
+--- !u!58 &6130568409525267620
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -509,7 +503,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 3743825138186276548}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d47242489f0b067489530aa8f0e609de, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -532,9 +526,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.09601784, y: 0.52124095}
-  m_Size: {x: 0.7469044, y: 2.042482}
-  m_Direction: 0
+  m_Offset: {x: 0.0029826164, y: 0.97}
+  serializedVersion: 2
+  m_Radius: 0.4774394
 --- !u!1 &4076487046424228129
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +591,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2220516100344551282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6672984302370359568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8415212604353470961}
+  m_Layer: 3
+  m_Name: EggThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8415212604353470961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672984302370359568}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2220516100344551282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8501585027362894086
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +654,7 @@ Transform:
   - {fileID: 7588728650464517601}
   - {fileID: 681531306812139930}
   - {fileID: 7553274544868883587}
+  - {fileID: 8415212604353470961}
   m_Father: {fileID: 8886013987281205111}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8556218814368457938
@@ -764,7 +790,7 @@ Transform:
   m_GameObject: {fileID: 9030137610156895217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

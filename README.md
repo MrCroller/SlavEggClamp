@@ -4,7 +4,7 @@
 
 Цель игры забрать яйцо и дойти до своего финиша.
 
-## Установка:
+## Установка
 
 ![Static Badge](https://img.shields.io/badge/windows-black?style=for-the-badge&logo=windows&color=%230D1117)
 ![Static Badge](https://img.shields.io/badge/MacOS-black?style=for-the-badge&logo=apple&color=%230D1117)
@@ -14,22 +14,23 @@
 3. Запустить SlavEggClamp.exe / SlavEggClampMac.app для Mac
 
 > [!WARNING]
-> 
+>
 > Pre-Alfa build
 
-## Как начать:
+## Как начать
 
 Игра предназначена для 2 человек на одной клавиатуре (Hotseat)
 
 Яйцо можно кидать, чтобы убить другого игрока​, а также ударом можно выбить яйцо из рук (хвоста) другого игрока​. После смерти вы возрождаетесь через 3 секунды.
 Чтобы перейти на следующий экран  нужно убить своего оппонента и забрать яйцо.
+
 #### Клавиши
+
 - **Прыжок**: [W] / [стрелка вверх]
 - **Передвижение**: [A] / [стрелка влево], [D] / [стрелка вправо]
 - **Подобрать яйцо**: [пробел] / [ctrl]
--  **кинуть яйцо**: [пробел] / [ctrl]
+- **кинуть яйцо**: [пробел] / [ctrl]
 - **Удар**: [пробел] / [ctrl]
-
 
 Сделана общими силами 4 человек в рамках [Game Jam](https://itch.io/jam/reactor-jam)
 
@@ -42,7 +43,6 @@
 [![Static Badge](https://img.shields.io/badge/C%23-p?style=flat-square&color=%230D1117)](https://learn.microsoft.com/ru-ru/dotnet/csharp/)
 [![Static Badge](https://img.shields.io/badge/Visual_Studio-purple?style=flat-square&logo=visualstudio&color=%230D1117)](https://visualstudio.microsoft.com/ru/)
 
-
 <a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
 [![Static Badge](https://img.shields.io/badge/Admiral4Header-Game_Designer-black?style=for-the-badge&labelColor=%230D1117&color=f40c36)](https://github.com/Admiral4Header)
@@ -50,14 +50,12 @@
 
 [![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&color=%230D1117)](https://unity.com)
 
-
 <a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 
 [![Static Badge](https://img.shields.io/badge/ces__calasss-Art-black?style=for-the-badge&labelColor=%230D1117&color=%23EFD09B)](https://t.me/ces_calasss)
 
 [![Static Badge](https://img.shields.io/badge/unity-black?style=flat-square&logo=unity&color=%230D1117)](https://unity.com)
 ![Static Badge](https://img.shields.io/badge/PotiPoti-black?style=flat-square&color=%230D1117)
-
 
 <a href="https://youtu.be/X9apAXRl6oo?si=vqNxFWG13WTjqCI3"><img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"></a>
 

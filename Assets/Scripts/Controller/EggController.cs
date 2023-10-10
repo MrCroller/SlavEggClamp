@@ -7,11 +7,11 @@ using UnityEngine.Windows;
 
 namespace SEC.Character
 {
-    public class EggController : IDisposable
+    public sealed class EggController : IDisposable
     {
         #region Fields
 
-        private UnityEvent<Vector2, Vector2> _onThrow;
+        private readonly IEggEvent _eggEvents;
 
         private Rigidbody2D _rb;
         private SpriteRenderer _eggSprite;
@@ -46,7 +46,7 @@ namespace SEC.Character
 
             _saveRbType = _rb.bodyType;
 
-            _onThrow = input.OnThrow;
+            _eggEvents = input;
 
             Subscribe();
         }
@@ -58,14 +58,14 @@ namespace SEC.Character
 
         private void Subscribe()
         {
-            EggInput.OnTake.AddListener(Take);
-            _onThrow.AddListener(Throw);
+            _eggEvents.OnTake.AddListener(Take);
+            _eggEvents.OnThrow.AddListener(Throw);
         }
 
         private void Unsubscribe()
         {
-            EggInput.OnTake.RemoveListener(Take);
-            _onThrow.RemoveListener(Throw);
+            _eggEvents.OnTake.RemoveListener(Take);
+            _eggEvents.OnThrow.RemoveListener(Throw);
         }
 
         #endregion

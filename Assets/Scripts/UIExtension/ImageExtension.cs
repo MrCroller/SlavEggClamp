@@ -13,6 +13,13 @@ namespace TimersSystemUnity.Extension
             return image.color = color;
         }
 
+        public static Color SetAlpha(this SpriteRenderer sprite, float value)
+        {
+            Color color = sprite.color;
+            color.a = Mathf.Lerp(0.0f, 1.0f, value);
+            return sprite.color = color;
+        }
+
         public static void SetAplhaDynamic(this Image image, float time, AnimationCurve easing, bool isChangeActive = true)
         {
             if (isChangeActive)

@@ -1,8 +1,8 @@
-﻿using SEC.Enum;
+﻿using SEC.Enums;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SEC.Input
+namespace SEC.Map
 {
     [RequireComponent(typeof(Camera))]
     public class CameraInput : MonoBehaviour
@@ -11,11 +11,10 @@ namespace SEC.Input
         public BoxCollider2D leftCollider;
         public BoxCollider2D rightCollider;
 
-        [Header("Settings")]
+        [Header("Settings Border")]
         public AnimationCurve Easing;
         public float AnimateTime;
-        [Range(0.1f, 0.5f)] [Tooltip("Дальность появления игрока от края в процентах")]
-        public float PlayerTranslateRange;
+        public float TranslateRange { get; private set; } = 0.15f;
 
         [HideInInspector] public UnityEvent<OrientationLR> OnBorderExit = new();
 

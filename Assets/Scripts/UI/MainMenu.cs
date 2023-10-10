@@ -1,4 +1,5 @@
-﻿using SEC.Helpers;
+﻿using SEC.Associations;
+using SEC.Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngineTimers;
@@ -41,7 +42,7 @@ namespace SEC.UI
 
         public void PlayGame()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(SceneAssociations.Game);
         }
 
         public void ExitGame()
