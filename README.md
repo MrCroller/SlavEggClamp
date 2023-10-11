@@ -13,10 +13,6 @@
 2. Распаковать
 3. Запустить SlavEggClamp.exe / SlavEggClampMac.app для Mac
 
-> [!WARNING]
->
-> Pre-Alfa build
-
 ## Как начать
 
 Игра предназначена для 2 человек на одной клавиатуре (Hotseat)
