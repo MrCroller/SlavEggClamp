@@ -31,10 +31,14 @@ namespace SEC.Character.Controller
 
         #region ClassLifeCicle
 
-        public CharacterController2D(PlayerInput input, MovementSetting movementSetting, IEggEvent eggEvents)
+        public CharacterController2D(PlayerInput input,
+                                     MovementSetting movementSetting,
+                                     IEggEvent eggEvents,
+                                     CameraShakeSetting cameraShakeSetting)
         {
             Input = input;
             MovementSetting = input.MovementSetting != null ? input.MovementSetting : movementSetting;
+            CameraShakeSetting = cameraShakeSetting;
 
             Input.OnLandEvent ??= new UnityEvent();
             Input.OnCrouchEvent ??= new UnityEvent<bool>();
@@ -74,7 +78,6 @@ namespace SEC.Character.Controller
             Input.OnDeath.Invoke(Input);
             Input.Animator.SetTrigger(AnimatorAssociations.Dead);
             AudioEffectPlay(Input.EffectAudioData.Death);
-            AudioEffectPlay(Input.EffectAudioData.Death);
 
             Input.gameObject.layer = LayerAssociations.Background;
 
@@ -83,6 +86,7 @@ namespace SEC.Character.Controller
 
         public float Win()
         {
+            Input.IsControlable = false;
             VoicePlay(Input.VoiceAudioData.Win);
             return Input.VoiceAudioData.Win.length;
         }

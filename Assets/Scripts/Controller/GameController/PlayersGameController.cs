@@ -17,13 +17,13 @@ namespace SEC.Controller
 
         #region Fields
 
-        private Transform _spawnPointRight;
-        private Transform _spawnPointLeft;
+        private readonly Transform _spawnPointRight;
+        private readonly Transform _spawnPointLeft;
         private Dictionary<PlayerInput, CharacterController2D> _playersList;
 
         private DeadList<PlayerInput> _playersDeathList;
 
-        private EggInput _egg;
+        private readonly EggInput _egg;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace SEC.Controller
             if (collider.gameObject.layer == LayerAssociations.PlayerTakeEgg)
             {
                 var player = collider.GetComponent<PlayerInput>();
-                if (player.HomeSide != orientation)
+                if (player.HomeSide == orientation)
                 {
                     RestartGame(_playersList[player].Win());
                     MaskSwap(_maskBorderOn);
@@ -48,6 +48,8 @@ namespace SEC.Controller
         private void KilledPlayer(PlayerInput player)
         {
             MaskSwap(_maskBorderOff);
+
+            Effects.CameraShake(_cameraShakeSetting.PlayerKill_Time, _cameraShakeSetting.PlayerKill_Forse);
 
             _playersDeathList.Add(player, EndMethod, _playersList[player].MovementSetting.DeathTime);
 
@@ -61,7 +63,7 @@ namespace SEC.Controller
         {
             MaskSwap(_maskBorderOn);
 
-            var position = player.HomeSide == OrientationLR.Right ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
+            var position = player.HomeSide == OrientationLR.Left ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
             _playersList[player].Spawn(position);
         }
 
@@ -69,7 +71,7 @@ namespace SEC.Controller
         {
             MaskSwap(_maskBorderOn);
 
-            Vector2 position = orientation == OrientationLR.Right ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
+            Vector2 position = orientation == OrientationLR.Left ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
             _playersList[player].Spawn(position);
         }
 
@@ -82,7 +84,7 @@ namespace SEC.Controller
 
             foreach (var player in list)
             {
-                var position = player.HomeSide == OrientationLR.Right ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
+                var position = player.HomeSide == OrientationLR.Left ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
                 _playersList[player].Spawn(position);
             }
             list.Clear();

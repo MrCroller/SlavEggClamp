@@ -3,6 +3,7 @@ using SEC.Associations;
 using SEC.Character.Input;
 using SEC.Controller;
 using SEC.Enums;
+using SEC.Helpers;
 using SEC.SO;
 using UnityEngine;
 
@@ -51,6 +52,7 @@ namespace SEC.Character.Controller
         #region Fields
 
         public readonly MovementSetting MovementSetting;
+        public readonly CameraShakeSetting CameraShakeSetting;
 
         private bool _isEggTake = false;
         private bool _isGrounded;                      // На земле ли игрок
@@ -226,6 +228,7 @@ namespace SEC.Character.Controller
             IsEggTake = false;
 
             Input.Animator.SetTrigger(AnimatorAssociations.Bump);
+            Effects.CameraShake(CameraShakeSetting.PlayerKick_Time, CameraShakeSetting.PlayerKick_Forse);
 
             AddImmunable(MovementSetting.ImmunityTime);
             Input.OnKick.Invoke();

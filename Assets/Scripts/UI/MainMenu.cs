@@ -11,6 +11,7 @@ namespace SEC.UI
 
         public GameObject mainMenu;
         public GameObject optionMenu;
+        public Fader fader;
 
         public AudioSource Audio;
         public AudioClip clip1;
@@ -42,12 +43,12 @@ namespace SEC.UI
 
         public void PlayGame()
         {
-            SceneManager.LoadScene(SceneAssociations.Game);
+            fader.FadeIn(() => SceneManager.LoadScene(SceneAssociations.Game));
         }
 
         public void ExitGame()
         {
-            Application.Quit();
+            fader.FadeIn(() => Application.Quit());
         }
     }
 }

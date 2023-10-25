@@ -39,10 +39,17 @@ namespace SEC
         [field: SerializeField] public Transform SpawnPointRight { get; private set; }
         [field: SerializeField] public Transform SpawnPointLeft { get; private set; }
         [field: SerializeField] public PlayerInput[] Players { get; private set; }
+
+
+        //------------------ Settings SO --------------------------
         [field: SerializeField] public MovementSetting DefaultMovementSetting { get; private set; }
+
+        [field: SerializeField] public CameraShakeSetting CameraShakeSetting { get; private set; }
+
 
         [field: SerializeField] public InputAction OptionButton { get; private set; }
         [field: SerializeField] public OptionManager OptionMenu { get; private set; }
+        [SerializeField] private Fader _faderOption;
 
         [field: SerializeField] public AudioSource AudioSourceMusic { get; private set; }
         [field: SerializeField] public AudioClip[] FightMusic { get; private set; } = new AudioClip[3];
@@ -58,6 +65,16 @@ namespace SEC
             set
             {
                 OptionMenu.gameObject.SetActive(value);
+
+                if (value)
+                {
+                    _faderOption.FadeIn();
+                }
+                else
+                {
+                    _faderOption.FadeOut();
+                }
+
                 foreach (var player in Players)
                 {
                     player.IsControlable = !value;
@@ -69,6 +86,7 @@ namespace SEC
         private GameController _gameController;
         private CameraController _cameraController;
         private EggController _eggController;
+        private Effects _effects;
 
         private Dictionary<PlayerInput, CharacterController2D> _playersList;
 
@@ -93,7 +111,10 @@ namespace SEC
             foreach (var player in Players)
             {
                 // Инициализация контроллеров игроков
-                var controller = new CharacterController2D(player, DefaultMovementSetting, Egg);
+                var controller = new CharacterController2D(player,
+                                                           DefaultMovementSetting,
+                                                           Egg,
+                                                           CameraShakeSetting);
                 player.Controller = controller;
                 _playersList.Add(player, controller);
                 _executesLaters.Add(controller);
@@ -104,6 +125,8 @@ namespace SEC
                                          _cameraController,
                                          MainCamera.leftCollider,
                                          MainCamera.rightCollider);
+
+            new Effects(_cameraController);
 
             OptionButton.started += OpenMenu;
         }

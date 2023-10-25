@@ -5,6 +5,7 @@ using SEC.Associations;
 using SEC.Character;
 using SEC.Character.Controller;
 using SEC.Enums;
+using SEC.SO;
 using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,6 +31,7 @@ namespace SEC.Controller
 
         private readonly TimersPool Timers;
         private CameraController _cameraController;
+        private readonly CameraShakeSetting _cameraShakeSetting;
 
         #endregion
 
@@ -43,9 +45,10 @@ namespace SEC.Controller
                               BoxCollider2D rightBorder)
         {
             OnFinish = new();
-            _playersDeathList = new(4);
+            _playersDeathList = new(manager.Players.Length);
 
             _cameraController = camera;
+            _cameraShakeSetting = manager.CameraShakeSetting;
 
             _leftBorder = leftBorder;
             _rightBorder = rightBorder;
@@ -72,6 +75,7 @@ namespace SEC.Controller
 
         public void Dispose()
         {
+            _playersDeathList.Dispose();
             UnSubscribe();
         }
 
