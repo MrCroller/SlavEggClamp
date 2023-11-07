@@ -499,9 +499,9 @@ MonoBehaviour:
   <CrouchDisableCollider>k__BackingField: {fileID: 0}
   <EggCheck>k__BackingField: {fileID: 681531306812139930}
   <EggThrowPoint>k__BackingField: {fileID: 2702081664614045107}
+  <MainSprite>k__BackingField: {fileID: 2422239539118666323}
   <MinimapIcon>k__BackingField: {fileID: 6525095849376246053}
   <Animator>k__BackingField: {fileID: 946065852472767347}
-  <MainSprite>k__BackingField: {fileID: 2422239539118666323}
   <AudioSourceEffect>k__BackingField: {fileID: 2817904015401613978}
   <EffectAudioData>k__BackingField: {fileID: 11400000, guid: f03d4f802c368de4f89746a8516c8334, type: 2}
   <AudioSourceVoice>k__BackingField: {fileID: 1077753550552169523}
@@ -830,7 +830,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -848,8 +848,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -492561567
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1447234156, guid: 050196e431a217642b710554889c6b99, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
