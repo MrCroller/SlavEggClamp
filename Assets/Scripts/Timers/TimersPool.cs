@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine.Events;
 
 
 namespace UnityEngineTimers
 {
-    public sealed class TimersPool
+    public sealed class TimersPool : IDisposable
     {
 
         #region Fields
@@ -58,6 +59,11 @@ namespace UnityEngineTimers
             return _instance;
         }
 
+        public void Dispose()
+        {
+            _timers.Clear();
+        }
+
         #endregion
 
 
@@ -66,12 +72,6 @@ namespace UnityEngineTimers
         public IStop StartTimer(UnityAction endMethod, float time) => Timer.Start(endMethod, time);
         public IStop StartTimer(UnityAction<float> timeTickMethod, float time) => Timer.Start(timeTickMethod, time);
         public IStop StartTimer(UnityAction endMethod, UnityAction<float> timeTickMethod, float time) => Timer.Start(endMethod, timeTickMethod, time);
-
-
-        public void Reset()
-        {
-            _timers.Clear();
-        }
 
         #endregion
 

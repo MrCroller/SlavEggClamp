@@ -1,55 +1,118 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using SEC.Character.Input;
+using System.Linq;
 using UnityEngine.Events;
 using UnityEngineTimers;
 
 
 namespace SEC.Helpers
 {
-    public class DeadList<T> : List<T>, IDisposable where T : PlayerInput
+    public sealed class DeadList<T> : IEnumerable, IDisposable
     {
-        private Dictionary<T, IStop> dictionary;
+        public IEnumerator GetEnumerator() => dictionary.Keys.GetEnumerator();
 
-        public DeadList() : base()
+        private readonly Dictionary<T, IStop> dictionary;
+
+        public DeadList()
         {
             dictionary = new Dictionary<T, IStop>();
         }
-        public DeadList(int length) : base(length)
+
+        public DeadList(int length)
         {
-            dictionary = new Dictionary<T, IStop>();
+            dictionary = new Dictionary<T, IStop>(length);
         }
 
-        public new void Add(T player, UnityAction EndMethod, float time)
+        public void Add(T item)
         {
-            player.IsControlable = false;
-
-            if (!base.Contains(player))
+            if (!dictionary.ContainsKey(item))
             {
-                base.Add(player);
-
-                var timer = TimersPool.GetInstance().StartTimer(() =>
-                {
-                    EndMethod();
-                    base.Remove(player);
-                    dictionary.Remove(player);
-                }, time);
-
-                dictionary.Add(player, timer);
+                dictionary.Add(item, default);
             }
             else
             {
-                dictionary[player].Stop();
+                dictionary[item].Stop();
+            }
+        }
 
-                dictionary[player] = TimersPool.GetInstance().StartTimer(() =>
+        /// <summary>
+        /// Adds an object to the list and deletes it after a specified time.
+        /// If the object is already in the collection, the timer is restarted
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="EndMethod">Method that will be called after deletion from the list</param>
+        /// <param name="time">Time after which the object will be deleted (in seconds)</param>
+        public void Add(T item, UnityAction EndMethod, float time)
+        {
+            if (!dictionary.Keys.Contains(item))
+            {
+                var timer = TimersPool.GetInstance().StartTimer(() =>
                 {
                     EndMethod();
-                    base.Remove(player);
-                    dictionary.Remove(player);
+                    dictionary.Remove(item);
+                }, time);
+
+                dictionary.Add(item, timer);
+            }
+            else
+            {
+                dictionary[item].Stop();
+
+                dictionary[item] = TimersPool.GetInstance().StartTimer(() =>
+                {
+                    EndMethod();
+                    dictionary.Remove(item);
                 }, time);
             }
         }
 
+        /// <summary>
+        /// Adds an object to the list and deletes it after a specified time. 
+        /// If the object is already in the collection, the timer is restarted.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="StartMethod">Method to be called before adding (some actions with the object)</param>
+        /// <param name="EndMethod">Method that will be called after deletion from the list</param>
+        /// <param name="time">Time after which the object will be deleted (in seconds)</param>
+        public void Add(T item, UnityAction StartMethod, UnityAction EndMethod, float time)
+        {
+            StartMethod();
+
+            if (!dictionary.Keys.Contains(item))
+            {
+                var timer = TimersPool.GetInstance().StartTimer(() =>
+                {
+                    EndMethod();
+                    dictionary.Remove(item);
+                }, time);
+
+                dictionary.Add(item, timer);
+            }
+            else
+            {
+                dictionary[item].Stop();
+
+                dictionary[item] = TimersPool.GetInstance().StartTimer(() =>
+                {
+                    EndMethod();
+                    dictionary.Remove(item);
+                }, time);
+            }
+        }
+
+        public void Stop(T item)
+        {
+            if (dictionary.ContainsKey(item))
+            {
+                dictionary[item].Stop();
+            }
+        }
+
+        /// <summary>
+        /// Stops all timers in the list.
+        /// If you want to stop and then clear the list, just use the Clear() method
+        /// </summary>
         public void StopAll()
         {
             foreach (IStop timer in dictionary.Values)
@@ -58,24 +121,22 @@ namespace SEC.Helpers
             }
         }
 
-        public new void Remove(T player)
+        /// <summary>
+        /// Stops the timer on an object and removes it from the list
+        /// </summary>
+        /// <param name="item"></param>
+        public void Remove(T item)
         {
-            dictionary[player]?.Stop();
-            dictionary.Remove(player);
-            base.Remove(player);
+            dictionary[item]?.Stop();
+            dictionary.Remove(item);
         }
 
-        public new void Clear()
-        {
-            StopAll();
-            base.Clear();
-            dictionary.Clear();
-        }
-
+        /// <summary>
+        /// Stops all timers and clears the list
+        /// </summary>
         public void Dispose()
         {
             StopAll();
-            base.Clear();
             dictionary.Clear();
         }
     }

@@ -5,10 +5,7 @@ using SEC.Character.Controller;
 using SEC.Character.Input;
 using SEC.Enums;
 using SEC.Helpers;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngineTimers;
 
 namespace SEC.Controller
 {
@@ -79,19 +76,17 @@ namespace SEC.Controller
         {
             MaskSwap(_maskBorderOn);
 
-            List<PlayerInput> list = new(_playersDeathList);
-            _playersDeathList.Clear();
-
-            foreach (var player in list)
+            foreach (PlayerInput player in _playersDeathList)
             {
                 var position = player.HomeSide == OrientationLR.Left ? (Vector2)_spawnPointRight.position : (Vector2)_spawnPointLeft.position;
                 _playersList[player].Spawn(position);
             }
-            list.Clear();
+            _playersDeathList.Dispose();
         }
 
         private void KillPlayersWithoutEgg()
         {
+            _playersDeathList.StopAll();
             foreach (var player in _playersList.Keys)
             {
                 if (player.gameObject.layer != LayerAssociations.PlayerTakeEgg)

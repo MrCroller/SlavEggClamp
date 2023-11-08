@@ -17,7 +17,12 @@ namespace SEC.Map
         public float AnimateTime;
         [field: SerializeField] public float TranslateRange { get; private set; } = 0.15f;
 
-        [HideInInspector] public UnityEvent<OrientationLR> OnBorderExit = new();
+        [HideInInspector] public UnityEvent<OrientationLR> OnBorderExit;
+
+        private void Start()
+        {
+            OnBorderExit ??= new();
+        }
 
         public void OnLeftEnterHandler() => OnBorderExit?.Invoke(OrientationLR.Left);
         public void OnRightEnterHandler() => OnBorderExit?.Invoke(OrientationLR.Right);

@@ -17,6 +17,7 @@ namespace SEC.Controller
 
         public bool LockTranslate = false;
 
+        private Transform _parentTransform;
         private Camera _camera;
         private float _animationTime;
         private AnimationCurve _easing;
@@ -35,6 +36,7 @@ namespace SEC.Controller
         internal CameraController(CameraInput input)
         {
             _camera                = input.Camera;
+            _parentTransform       = input.transform;
             _cbmcp                 = input.VirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             _cbmcp.m_AmplitudeGain = 0f;
             _animationTime         = input.AnimateTime;
@@ -62,15 +64,16 @@ namespace SEC.Controller
         public void Translate(OrientationLR orientation)
         {
             if (LockTranslate) return;
+            LockTranslate = true;
 
+            StopShake();
             float saveXPosition = _camera.transform.position.x;
 
-            LockTranslate = true;
             TimersPool.GetInstance().StartTimer(() => { LockTranslate = false; OnAnimationEnd.Invoke(); }, TranslateUp, _animationTime);
 
             void TranslateUp(float progress)
             {
-                _camera.transform.position = new Vector3(
+                _parentTransform.transform.position = new Vector3(
                     x: _easing.Evaluate(progress)
                         * _xTranslate
                         * (orientation == OrientationLR.Right ? 1 : -1)
@@ -85,13 +88,14 @@ namespace SEC.Controller
             _cameraShakeTimer?.Stop();
 
             _cbmcp.m_AmplitudeGain = strength;
-            _cameraShakeTimer = TimersPool.GetInstance().StartTimer(End, time);
-
-            void End()
-            {
-                _cbmcp.m_AmplitudeGain = 0f;
-                _cameraShakeTimer = null;
-            }
+            _cameraShakeTimer = TimersPool.GetInstance().StartTimer(StopShake, time);
         }
+
+        private void StopShake()
+        {
+            _cbmcp.m_AmplitudeGain = 0f;
+            _cameraShakeTimer = null;
+        }
+
     }
 }
