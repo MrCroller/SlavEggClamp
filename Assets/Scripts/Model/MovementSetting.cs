@@ -38,5 +38,11 @@ namespace SEC.SO
 
         [Tooltip("Время иммунтитета. В случаях: Выкидывания яйца, Выбивания твоего яйца, Спавна")]
         public float ImmunityTime;
+
+        [Tooltip("Цвет иммунитета")]
+        public Color ImmunityColor;
+
+        [Tooltip("Кривая альфа канала при иммунитете")]
+        public AnimationCurve ImmunityEasing;
     }
 }

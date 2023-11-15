@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SEC.Character;
 using SEC.Character.Controller;
 using SEC.Controller;
@@ -10,6 +11,7 @@ using SEC.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngineTimers;
 using PlayerInput = SEC.Character.Input.PlayerInput;
 
@@ -33,6 +35,7 @@ namespace SEC
         [field: SerializeField] public LayerMask MaskBorderOff { get; private set; }
 
         public CameraInput MainCamera;
+        public Transform Minimap;
 
         [field: SerializeField] public EggInput Egg { get; private set; }
 
@@ -45,6 +48,7 @@ namespace SEC
         [field: SerializeField] public MovementSetting DefaultMovementSetting { get; private set; }
 
         [field: SerializeField] public CameraShakeSetting CameraShakeSetting { get; private set; }
+        [field: SerializeField] public LightGameSetting LightGameSetting { get; private set; }
 
 
         [field: SerializeField] public InputAction OptionButton { get; private set; }
@@ -53,6 +57,7 @@ namespace SEC
 
         [field: SerializeField] public AudioSource AudioSourceMusic { get; private set; }
         [field: SerializeField] public AudioClip[] FightMusic { get; private set; } = new AudioClip[3];
+        [field: SerializeField] public Light2D[] BackLights { get; private set; }
 
         #endregion
 
@@ -68,11 +73,13 @@ namespace SEC
 
                 if (value)
                 {
+                    Minimap.Deactivate();
                     _faderOption.FadeIn();
                 }
                 else
                 {
                     _faderOption.FadeOut();
+                    Minimap.Activate();
                 }
 
                 foreach (var player in Players)
@@ -86,14 +93,15 @@ namespace SEC
         private GameController _gameController;
         private CameraController _cameraController;
         private EggController _eggController;
+        private LightController _lightController;
         private Effects _effects;
 
         private Dictionary<PlayerInput, CharacterController2D> _playersList;
 
         private readonly List<IExecute> _executes = new();
         private readonly List<IExecuteLater> _executesLaters = new();
+        private List<IDisposable> _disposables;
         private TimersPool _timers;
-
         private bool _isMenuOpen = false;
 
         #endregion
@@ -106,6 +114,7 @@ namespace SEC
             _cameraController = new CameraController(MainCamera);
             _eggController    = new EggController(Egg);
             _playersList      = new Dictionary<PlayerInput, CharacterController2D>();
+            _lightController  = new LightController(LightGameSetting, BackLights);
             _timers           = TimersPool.GetInstance();
 
             foreach (var player in Players)
@@ -129,11 +138,23 @@ namespace SEC
             new Effects(_cameraController);
 
             OptionButton.started += OpenMenu;
+
+            //------------------ Disposable --------------------------
+            _disposables = new List<IDisposable>()
+            {
+                _eggController,
+                _cameraController,
+                _lightController,
+                _gameController,
+
+                _timers
+            };
         }
 
         private void Start()
         {
             OptionMenu.gameObject.SetActive(false);
+            _lightController.PlayAnimate();
 
             _timers.StartTimer(MusicPlay2, FightMusic[0].length - .05f);
             AudioSourceMusic.Play(FightMusic[0]);
@@ -168,6 +189,7 @@ namespace SEC
         private void OnDestroy()
         {
             OptionButton.started -= OpenMenu;
+            _disposables.ForEach(disposable => disposable.Dispose());
         }
 
         #endregion

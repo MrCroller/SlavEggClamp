@@ -26,43 +26,46 @@ namespace SEC.Character.Input
         public InputAction Jump;
         public InputAction Hand;
 
-
-        [Header("Links")]
-        [Tooltip("Маска, определяющая, что является землей для персонажа")] public LayerMask WhatIsGround;
-
-        /// <summary>
-        /// Обозначение позиции, в которой следует проверить, заземлен ли игрок
-        /// </summary>
-        [field: SerializeField] public Transform GroundCheck { get; private set; }
-
-        /// <summary>
-        /// Позиция, обозначающая место проверки потолков
-        /// </summary>
-        [field: SerializeField] public Transform CeilingCheck { get; private set; }
-
-        /// <summary>
-        /// Коллайдер, который отключается при приседании
-        /// </summary>
-        [field: SerializeField] public Collider2D CrouchDisableCollider { get; private set; }
-
-        /// <summary>
-        /// Позиция, обозначающая место проверки яйца
-        /// </summary>
-        [field: SerializeField] public Transform EggCheck { get; private set; }
-
-        /// <summary>
-        /// Позиция из которой вылетает яйцо
-        /// </summary>
-        [field: SerializeField] public Transform EggThrowPoint { get; private set; }
-        [field: SerializeField] public SpriteRenderer MainSprite { get; private set; }
-        [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
-        [field: SerializeField] public Animator Animator { get; private set; }
-        [field: SerializeField] public AudioSource AudioSourceEffect { get; private set; }
-        [field: SerializeField] public PlayerEffectAudioData EffectAudioData { get; private set; }
-        [field: SerializeField] public AudioSource AudioSourceVoice { get; private set; }
-        [field: SerializeField] public PlayerVoiceAudioData VoiceAudioData { get; private set; }
-
-        [field: SerializeField] public Rigidbody2D Rigidbody2D { get; private set; }
+        #region Links
+            
+            [Header("Links")]
+            [Tooltip("Маска, определяющая, что является землей для персонажа")] public LayerMask WhatIsGround;
+            
+            /// <summary>
+            /// Обозначение позиции, в которой следует проверить, заземлен ли игрок
+            /// </summary>
+            [field: SerializeField] public Transform GroundCheck { get; private set; }
+            
+            /// <summary>
+            /// Позиция, обозначающая место проверки потолков
+            /// </summary>
+            [field: SerializeField] public Transform CeilingCheck { get; private set; }
+            
+            /// <summary>
+            /// Коллайдер, который отключается при приседании
+            /// </summary>
+            [field: SerializeField] public Collider2D CrouchDisableCollider { get; private set; }
+            
+            /// <summary>
+            /// Позиция, обозначающая место проверки яйца
+            /// </summary>
+            [field: SerializeField] public Transform EggCheck { get; private set; }
+            
+            /// <summary>
+            /// Позиция из которой вылетает яйцо
+            /// </summary>
+            [field: SerializeField] public Transform EggThrowPoint { get; private set; }
+            [field: SerializeField] public SpriteRenderer MainSprite { get; private set; }
+            [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
+            [field: SerializeField] public Animator Animator { get; private set; }
+            [field: SerializeField] public AudioSource AudioSourceEffect { get; private set; }
+            [field: SerializeField] public PlayerEffectAudioData EffectAudioData { get; private set; }
+            [field: SerializeField] public AudioSource AudioSourceVoice { get; private set; }
+            [field: SerializeField] public PlayerVoiceAudioData VoiceAudioData { get; private set; }
+            
+            [field: SerializeField] public Rigidbody2D Rigidbody2D { get; private set; }
+            
+        #endregion
 
         [Header("Events")]
         [Space]

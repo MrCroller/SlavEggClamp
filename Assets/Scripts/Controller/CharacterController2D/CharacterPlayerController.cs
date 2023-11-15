@@ -5,6 +5,7 @@ using SEC.SO;
 using TimersSystemUnity.Extension;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements.Experimental;
 using UnityEngineTimers;
 
 
@@ -12,6 +13,7 @@ namespace SEC.Character.Controller
 {
     public partial class CharacterController2D
     {
+
         #region Fields
 
         public readonly PlayerInput Input;
@@ -66,7 +68,6 @@ namespace SEC.Character.Controller
             Input.Animator.SetTrigger(AnimatorAssociations.Alive);
 
             Input.gameObject.layer = LayerAssociations.Player;
-            Input.MainSprite.SetAlpha(0f);
 
             Input.transform.position = position;
             Input.IsControlable = true;
@@ -94,7 +95,13 @@ namespace SEC.Character.Controller
         public void AddImmunable(float time)
         {
             _imunable = true;
-            _timers.StartTimer(() => _imunable = false, time);
+            Input.MainSprite.color = MovementSetting.ImmunityColor;
+
+            _timers.StartTimer(() =>
+            {
+                _imunable = false;
+                Input.MainSprite.color = Color.white;
+            }, (float progress) => Input.MainSprite.SetAlpha(MovementSetting.ImmunityEasing.Evaluate(progress)), time);
         }
 
         private void VoicePlay(AudioClip audio)

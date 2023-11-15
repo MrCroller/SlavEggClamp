@@ -32,7 +32,7 @@ namespace SEC.Helpers
             }
             else
             {
-                dictionary[item].Stop();
+                dictionary[item]?.Stop();
             }
         }
 
@@ -57,7 +57,7 @@ namespace SEC.Helpers
             }
             else
             {
-                dictionary[item].Stop();
+                dictionary[item]?.Stop();
 
                 dictionary[item] = TimersPool.GetInstance().StartTimer(() =>
                 {
@@ -105,7 +105,7 @@ namespace SEC.Helpers
         {
             if (dictionary.ContainsKey(item))
             {
-                dictionary[item].Stop();
+                dictionary[item]?.Stop();
             }
         }
 
@@ -117,7 +117,7 @@ namespace SEC.Helpers
         {
             foreach (IStop timer in dictionary.Values)
             {
-                timer.Stop();
+                timer?.Stop();
             }
         }
 

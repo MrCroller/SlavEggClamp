@@ -248,6 +248,7 @@ namespace SEC.Character.Controller
 
             if (forse > MovementSetting.ForseToDeath && !_imunable)
             {
+                Effects.CameraShake(CameraShakeSetting.PlayerKill_Time, CameraShakeSetting.PlayerKill_Forse);
                 Death();
             }
         }

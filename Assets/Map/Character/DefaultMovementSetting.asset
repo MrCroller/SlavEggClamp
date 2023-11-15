@@ -22,3 +22,82 @@ MonoBehaviour:
   ForseToDeath: 30
   DeathTime: 3
   ImmunityTime: 0.8
+  ImmunityColor: {r: 0.84640414, g: 0.9433962, b: 0.10234961, a: 1}
+  ImmunityEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.15296066
+      value: 0.37584603
+      inSlope: -0.117110655
+      outSlope: -0.117110655
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.4523361
+    - serializedVersion: 3
+      time: 0.30792707
+      value: 0.15847166
+      inSlope: 0.110569224
+      outSlope: 0.110569224
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.45267427
+      value: 0.67217225
+      inSlope: 0.015869034
+      outSlope: 0.015869034
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6029987
+      value: 0.41509318
+      inSlope: -0.045765597
+      outSlope: -0.045765597
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.44740248
+      outWeight: 0.793029
+    - serializedVersion: 3
+      time: 0.74080914
+      value: 0.85958123
+      inSlope: -0.010738204
+      outSlope: -0.010738204
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.39179656
+    - serializedVersion: 3
+      time: 0.8660693
+      value: 0.636752
+      inSlope: -0.018787418
+      outSlope: -0.018787418
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.57176405
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.6942857
+      outSlope: 0.6942857
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07201648
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -36,8 +36,10 @@ namespace SEC.Controller
                 var player = collider.GetComponent<PlayerInput>();
                 if (player.HomeSide == orientation)
                 {
-                    RestartGame(_playersList[player].Win());
                     MaskSwap(_maskBorderOn);
+                    foreach (PlayerInput playerInput in _playersList.Keys) playerInput.IsControlable = false;
+                    RestartGame(_playersList[player].Win());
+                    Dispose();
                 }
             }
         }
@@ -45,8 +47,6 @@ namespace SEC.Controller
         private void KilledPlayer(PlayerInput player)
         {
             MaskSwap(_maskBorderOff);
-
-            Effects.CameraShake(_cameraShakeSetting.PlayerKill_Time, _cameraShakeSetting.PlayerKill_Forse);
 
             _playersDeathList.Add(player, EndMethod, _playersList[player].MovementSetting.DeathTime);
 

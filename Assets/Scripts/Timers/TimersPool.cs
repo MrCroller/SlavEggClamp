@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 
@@ -61,6 +62,8 @@ namespace UnityEngineTimers
 
         public void Dispose()
         {
+            Coroutines.Instance.StopAllCoroutines();
+            GameObject.Destroy(Coroutines.Instance);
             _timers.Clear();
         }
 

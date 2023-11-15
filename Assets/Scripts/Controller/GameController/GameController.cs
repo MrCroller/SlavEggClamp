@@ -76,6 +76,7 @@ namespace SEC.Controller
         public void Dispose()
         {
             _playersDeathList.Dispose();
+            _playersList.Clear();
             UnSubscribe();
         }
 
