@@ -37,7 +37,12 @@ namespace SEC.Controller
                 if (player.HomeSide == orientation)
                 {
                     MaskSwap(_maskBorderOn);
-                    foreach (PlayerInput playerInput in _playersList.Keys) playerInput.IsControlable = false;
+                    foreach (PlayerInput playerInput in _playersList.Keys)
+                    {
+                        playerInput.IsControlable = false;
+                        _playersList[playerInput].AddImmunable(100f);
+                    }
+
                     RestartGame(_playersList[player].Win());
                     Dispose();
                 }

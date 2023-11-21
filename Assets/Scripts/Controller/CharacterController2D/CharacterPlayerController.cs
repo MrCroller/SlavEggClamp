@@ -84,6 +84,9 @@ namespace SEC.Character.Controller
         {
             Input.OnDeath.Invoke(Input);
             Input.Animator.SetTrigger(AnimatorAssociations.Dead);
+
+            Input.ExplosionBlood.Play();
+
             AudioEffectPlay(Input.EffectAudioData.Death);
             AudioVoicePlay(Input.VoiceAudioData.Death);
 
@@ -102,11 +105,13 @@ namespace SEC.Character.Controller
         {
             _imunable = true;
             Input.MainSprite.color = MovementSetting.ImmunityColor;
+            Input.ParticleImmunity.Play();
 
             _timers.StartTimer(() =>
             {
                 _imunable = false;
                 Input.MainSprite.color = Color.white;
+                Input.ParticleImmunity.Stop();
             }, (float progress) => Input.MainSprite.SetAlpha(MovementSetting.ImmunityEasing.Evaluate(progress)), time);
         }
 

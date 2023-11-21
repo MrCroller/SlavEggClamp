@@ -616,8 +616,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.020200014, y: -1.31915, z: 0}
-    m_Extent: {x: 1.5044, y: 0.77084994, z: 0}
+    m_Center: {x: -0.023850024, y: -1.3124499, z: 0}
+    m_Extent: {x: 1.5044501, y: 0.76515, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1106,8 +1106,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.5885, y: -0.09745, z: 0}
-    m_Extent: {x: 0.4289, y: 0.30395, z: 0}
+    m_Center: {x: -0.59455, y: -0.09425, z: 0}
+    m_Extent: {x: 0.43865, y: 0.30625, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1525,8 +1525,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.59395003, y: -0.0932, z: 0}
-    m_Extent: {x: 0.44085002, y: 0.3058, z: 0}
+    m_Center: {x: -0.58385, y: -0.08975, z: 0}
+    m_Extent: {x: 0.43155003, y: 0.30665, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -2171,7 +2171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9245283, g: 0.8277423, b: 0.3009078, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2261,8 +2261,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.59525, y: -0.0921, z: 0}
-    m_Extent: {x: 0.43855, y: 0.3088, z: 0}
+    m_Center: {x: -0.5881, y: -0.09199999, z: 0}
+    m_Extent: {x: 0.4393, y: 0.3068, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -3067,8 +3067,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.59465, y: -0.10025, z: 0}
-    m_Extent: {x: 0.43524998, y: 0.30415, z: 0}
+    m_Center: {x: -0.58669996, y: -0.09525001, z: 0}
+    m_Extent: {x: 0.4362, y: 0.30875, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -4406,7 +4406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4803,6 +4803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bogatyr
       objectReference: {fileID: 0}
+    - target: {fileID: 5427989621705049733, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
+      propertyPath: CollisionModule.m_Planes.Array.data[0]
+      value: 
+      objectReference: {fileID: 1460845259}
     - target: {fileID: 8886013987281205111, guid: 3c00c0ce4e1a22e48bda7c0967105f92, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7

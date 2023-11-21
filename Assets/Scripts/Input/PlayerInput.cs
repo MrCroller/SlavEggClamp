@@ -58,11 +58,15 @@ namespace SEC.Character.Input
             [field: SerializeField] public SpriteRenderer MainSprite { get; private set; }
             [field: SerializeField] public SpriteRenderer MinimapIcon { get; private set; }
             [field: SerializeField] public Animator Animator { get; private set; }
+            //----------------------------< AUDIO >----------------------------
             [field: SerializeField] public AudioSource AudioSourceEffect { get; private set; }
             [field: SerializeField] public PlayerEffectAudioData EffectAudioData { get; private set; }
             [field: SerializeField] public AudioSource AudioSourceVoice { get; private set; }
             [field: SerializeField] public PlayerVoiceAudioData VoiceAudioData { get; private set; }
-            
+            //----------------------------< Effect >----------------------------
+            [field: SerializeField] public ParticleSystem ParticleImmunity { get; private set; }
+            [field: SerializeField] public ParticleSystem ExplosionBlood { get; private set; }
+
             [field: SerializeField] public Rigidbody2D Rigidbody2D { get; private set; }
             
         #endregion
