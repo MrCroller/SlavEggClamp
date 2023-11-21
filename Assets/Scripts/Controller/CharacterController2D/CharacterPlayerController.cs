@@ -55,6 +55,12 @@ namespace SEC.Character.Controller
 
             _saveMinimapColor = Input.MinimapIcon.color;
             _eggEvents = eggEvents;
+
+            // Развернуть персонажа в сторону центра если его сторона справа
+            if (Input.HomeSide == Enums.OrientationLR.Right)
+            {
+                Flip();
+            }
         }
 
         #endregion
@@ -64,7 +70,7 @@ namespace SEC.Character.Controller
 
         public void Spawn(Vector2 position)
         {
-            VoicePlay(Input.VoiceAudioData.Spawn);
+            AudioVoicePlay(Input.VoiceAudioData.Spawn);
             Input.Animator.SetTrigger(AnimatorAssociations.Alive);
 
             Input.gameObject.layer = LayerAssociations.Player;
@@ -79,6 +85,7 @@ namespace SEC.Character.Controller
             Input.OnDeath.Invoke(Input);
             Input.Animator.SetTrigger(AnimatorAssociations.Dead);
             AudioEffectPlay(Input.EffectAudioData.Death);
+            AudioVoicePlay(Input.VoiceAudioData.Death);
 
             Input.gameObject.layer = LayerAssociations.Background;
 
@@ -88,8 +95,7 @@ namespace SEC.Character.Controller
         public float Win()
         {
             Input.IsControlable = false;
-            VoicePlay(Input.VoiceAudioData.Win);
-            return Input.VoiceAudioData.Win.length;
+            return AudioVoicePlay(Input.VoiceAudioData.Win);
         }
 
         public void AddImmunable(float time)
@@ -104,15 +110,9 @@ namespace SEC.Character.Controller
             }, (float progress) => Input.MainSprite.SetAlpha(MovementSetting.ImmunityEasing.Evaluate(progress)), time);
         }
 
-        private void VoicePlay(AudioClip audio)
-        {
-            Input.AudioSourceVoice.Play(audio);
-        }
+        private float AudioVoicePlay(AudioClip[] audio) => Input.AudioSourceVoice.Play(audio);
 
-        private void AudioEffectPlay(AudioClip audio)
-        {
-            Input.AudioSourceEffect.Play(audio);
-        }
+        private float AudioEffectPlay(AudioClip audio) => Input.AudioSourceEffect.Play(audio);
 
         #endregion
 

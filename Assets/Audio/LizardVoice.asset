@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa0fd3cc8f53d947a67f6275f5ed5bc, type: 3}
   m_Name: LizardVoice
   m_EditorClassIdentifier: 
-  Spawn: {fileID: 8300000, guid: cb380986e9a919f41bcd687025fb7a1b, type: 3}
-  Kick: {fileID: 8300000, guid: d136af723f14e2d4e8c96c9e9571756b, type: 3}
-  Throw: {fileID: 8300000, guid: df6e98f7480c6bd4389edc570f832c2a, type: 3}
-  Win: {fileID: 8300000, guid: 2c7c2d252536780409171031cc3e396e, type: 3}
+  Spawn:
+  - {fileID: 8300000, guid: cb380986e9a919f41bcd687025fb7a1b, type: 3}
+  - {fileID: 8300000, guid: cb1af534f8c88ec40b6343db687caf5a, type: 3}
+  Kick:
+  - {fileID: 8300000, guid: d136af723f14e2d4e8c96c9e9571756b, type: 3}
+  - {fileID: 8300000, guid: 4071c7232cdf3954e8a05a06f80c4953, type: 3}
+  Throw:
+  - {fileID: 8300000, guid: df6e98f7480c6bd4389edc570f832c2a, type: 3}
+  - {fileID: 8300000, guid: 2b4be3635c68b4c4fb86a514735104b4, type: 3}
+  Win:
+  - {fileID: 8300000, guid: 2c7c2d252536780409171031cc3e396e, type: 3}
+  Death:
+  - {fileID: 8300000, guid: 689e764e2bbe25c4986c524e4f57bd36, type: 3}

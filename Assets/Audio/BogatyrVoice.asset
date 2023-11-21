@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa0fd3cc8f53d947a67f6275f5ed5bc, type: 3}
   m_Name: BogatyrVoice
   m_EditorClassIdentifier: 
-  Spawn: {fileID: 8300000, guid: 6f1f39e8d0d7c7c4f92986da045d5c2d, type: 3}
-  Kick: {fileID: 8300000, guid: 56d9519e4adf9784599752e6af0a6375, type: 3}
-  Throw: {fileID: 8300000, guid: ec8eff39cd2a68c47be62661df2a559b, type: 3}
-  Win: {fileID: 8300000, guid: cf02fc6e3d43b1c40ab790003ef23f54, type: 3}
+  Spawn:
+  - {fileID: 8300000, guid: 6f1f39e8d0d7c7c4f92986da045d5c2d, type: 3}
+  - {fileID: 8300000, guid: 9f5d943de826b3a4e96148a029a327c6, type: 3}
+  Kick:
+  - {fileID: 8300000, guid: 588e7c4db09949141b16c85cfdbcee16, type: 3}
+  - {fileID: 8300000, guid: 56d9519e4adf9784599752e6af0a6375, type: 3}
+  Throw:
+  - {fileID: 8300000, guid: ec8eff39cd2a68c47be62661df2a559b, type: 3}
+  - {fileID: 8300000, guid: 2b8904ac96ccf3e4c86dc64b06bdc8e1, type: 3}
+  - {fileID: 8300000, guid: 7959adec13c5322418ef3db1a2d48316, type: 3}
+  Win:
+  - {fileID: 8300000, guid: cf02fc6e3d43b1c40ab790003ef23f54, type: 3}
+  Death:
+  - {fileID: 8300000, guid: c3b113643366c0f48b3a5fe26c56ac64, type: 3}

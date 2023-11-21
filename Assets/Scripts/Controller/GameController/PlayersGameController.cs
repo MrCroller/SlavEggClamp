@@ -47,11 +47,14 @@ namespace SEC.Controller
         private void KilledPlayer(PlayerInput player)
         {
             MaskSwap(_maskBorderOff);
-
             _playersDeathList.Add(player, EndMethod, _playersList[player].MovementSetting.DeathTime);
+
+            _arrowHelper.SetBool(AnimatorAssociations.EndAnim, false);
+            _arrowHelper.SetTrigger(AnimatorAssociations.GetSideHelpArrow(player.HomeSide));
 
             void EndMethod()
             {
+                _arrowHelper.SetBool(AnimatorAssociations.EndAnim, true);
                 SpawnPlayer(player);
             }
         }
@@ -86,13 +89,11 @@ namespace SEC.Controller
 
         private void KillPlayersWithoutEgg()
         {
-            _playersDeathList.StopAll();
             foreach (var player in _playersList.Keys)
             {
                 if (player.gameObject.layer != LayerAssociations.PlayerTakeEgg)
                 {
                     _playersDeathList.Add(player);
-                    _playersList[player].Death();
                 }
             }
         }

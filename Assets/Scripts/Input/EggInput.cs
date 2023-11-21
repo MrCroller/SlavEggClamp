@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SEC.Associations;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace SEC.Character
@@ -12,6 +13,7 @@ namespace SEC.Character
         public SpriteRenderer EggSprite;
         public PolygonCollider2D PolygonCollider;
         public SpriteRenderer MinimapIcon;
+        [SerializeField] private Transform _eggSpawnPoint;
 
         public static float Velocity { get; private set; }
         private bool _velosityFlagSave = true;
@@ -27,6 +29,11 @@ namespace SEC.Character
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (collision.gameObject.layer == LayerAssociations.DeadZone)
+            {
+                transform.position = _eggSpawnPoint.position;
+            }
+
             _velosityFlagSave = false;
         }
 

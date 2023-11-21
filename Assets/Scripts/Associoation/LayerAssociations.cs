@@ -17,5 +17,6 @@ namespace SEC.Associations
         /// </summary>
         public const int PlayerTakeEgg = 8;
         public const int Background = 19;
+        public const int DeadZone = 13;
     }
 }

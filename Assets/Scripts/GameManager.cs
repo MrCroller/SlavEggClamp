@@ -53,6 +53,7 @@ namespace SEC
 
         [field: SerializeField] public InputAction OptionButton { get; private set; }
         [field: SerializeField] public OptionManager OptionMenu { get; private set; }
+        [field: SerializeField] public Animator ArrowHelper { get; private set; }
         [SerializeField] private Fader _faderOption;
 
         [field: SerializeField] public AudioSource AudioSourceMusic { get; private set; }

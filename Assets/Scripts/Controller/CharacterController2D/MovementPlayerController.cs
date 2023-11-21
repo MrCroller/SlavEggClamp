@@ -195,7 +195,7 @@ namespace SEC.Character.Controller
                 var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg);
                 if (obj != null)
                 {
-                    VoicePlay(Input.VoiceAudioData.Kick);
+                    AudioVoicePlay(Input.VoiceAudioData.Kick);
                     AudioEffectPlay(Input.EffectAudioData.Hand);
                     Input.Animator.SetTrigger(AnimatorAssociations.Kick);
 
@@ -212,7 +212,7 @@ namespace SEC.Character.Controller
             IsEggTake = false;
 
             AudioEffectPlay(Input.EffectAudioData.Throw);
-            VoicePlay(Input.VoiceAudioData.Throw);
+            AudioVoicePlay(Input.VoiceAudioData.Throw);
 
             Input.OnThrowEgg.Invoke(Input.EggThrowPoint.position,
                                      new Vector2(
@@ -259,9 +259,9 @@ namespace SEC.Character.Controller
             _orientation = (_orientation == OrientationLR.Right) ? OrientationLR.Left : OrientationLR.Right;
 
             // Умножить локальный масштаб x игрока на -1
-            Vector3 theScale = Input.Rigidbody2D.transform.localScale;
+            Vector3 theScale = Input.transform.localScale;
             theScale.x *= -1;
-            Input.Rigidbody2D.transform.localScale = theScale;
+            Input.transform.localScale = theScale;
         }
 
         #endregion

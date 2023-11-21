@@ -24,6 +24,7 @@ namespace SEC.Controller
         public  UnityEvent<OrientationLR, Collider2D> OnFinish;
         private BoxCollider2D _leftBorder;
         private BoxCollider2D _rightBorder;
+        private Animator _arrowHelper;
         private LayerMask _maskBorderOn;
         private LayerMask _maskBorderOff;
         private bool _killPassed;
@@ -49,6 +50,7 @@ namespace SEC.Controller
 
             _cameraController = camera;
             _cameraShakeSetting = manager.CameraShakeSetting;
+            _arrowHelper = manager.ArrowHelper;
 
             _leftBorder = leftBorder;
             _rightBorder = rightBorder;
@@ -114,6 +116,7 @@ namespace SEC.Controller
         private void OnBorderExit(OrientationLR _)
         {
             MaskSwap(_maskBorderOn);
+            _arrowHelper.SetBool(AnimatorAssociations.EndAnim, true);
 
             KillPlayersWithoutEgg();
         }
@@ -128,13 +131,11 @@ namespace SEC.Controller
 
         private void RestartGame(float timeForEnd)
         {
-            _cameraController.LockTranslate = true;
             _finishFlag = true;
             Timers.StartTimer(
                 () =>
                     {
                         Time.timeScale = 1f;
-                        _cameraController.LockTranslate = false;
                         _finishFlag = false;
                         SceneManager.LoadScene(SceneAssociations.Game);
                     },

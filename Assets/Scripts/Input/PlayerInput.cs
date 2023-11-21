@@ -121,7 +121,12 @@ namespace SEC.Character.Input
 
         private void FixedUpdate()
         {
-            if (!IsControlable) return;
+            if (!IsControlable)
+            {
+                Controller.Move(0f, false, false);
+                return;
+            }
+
             Controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump);
             _jump = false;
         }
@@ -137,6 +142,10 @@ namespace SEC.Character.Input
             if (collision.gameObject.layer == LayerAssociations.Egg)
             {
                 Controller.Bump(EggInput.Velocity);
+            }
+            else if (collision.gameObject.layer == LayerAssociations.DeadZone)
+            {
+                OnDeath.Invoke(this);
             }
         }
 

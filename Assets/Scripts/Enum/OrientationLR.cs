@@ -1,8 +1,8 @@
 ﻿namespace SEC.Enums
 {
-    public enum OrientationLR
+    public enum OrientationLR : int
     {
-        Left,
-        Right
+        Left = -1,
+        Right = 1
     }
 }

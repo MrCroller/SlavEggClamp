@@ -15,8 +15,6 @@ namespace SEC.Controller
         public readonly UnityEvent<OrientationLR> OnBorderExit;
         public readonly UnityEvent OnAnimationEnd;
 
-        public bool LockTranslate = false;
-
         private Transform _parentTransform;
         private Camera _camera;
         private float _animationTime;
@@ -42,7 +40,7 @@ namespace SEC.Controller
             _animationTime         = input.AnimateTime;
             _easing                = input.Easing;
 
-            _xTranslate    = _camera.orthographicSize * 4f * (1f - input.TranslateRange);
+            _xTranslate    = input.TranslateRange;
             _yPosition     = _camera.transform.position.y;
             _zPosition     = _camera.transform.position.z;
 
@@ -63,20 +61,17 @@ namespace SEC.Controller
         /// <param name="orientation"></param>
         public void Translate(OrientationLR orientation)
         {
-            if (LockTranslate) return;
-            LockTranslate = true;
-
             StopShake();
             float saveXPosition = _camera.transform.position.x;
 
-            TimersPool.GetInstance().StartTimer(() => { LockTranslate = false; OnAnimationEnd.Invoke(); }, TranslateUp, _animationTime);
+            TimersPool.GetInstance().StartTimer(() => OnAnimationEnd.Invoke() , TranslateUp, _animationTime);
 
             void TranslateUp(float progress)
             {
                 _parentTransform.transform.position = new Vector3(
                     x: _easing.Evaluate(progress)
                         * _xTranslate
-                        * (orientation == OrientationLR.Right ? 1 : -1)
+                        * (int)orientation
                         + saveXPosition,
                     _yPosition,
                     _zPosition);

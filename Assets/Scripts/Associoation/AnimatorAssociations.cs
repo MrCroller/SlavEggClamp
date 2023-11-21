@@ -1,4 +1,6 @@
-﻿namespace SEC.Associations
+﻿using SEC.Enums;
+
+namespace SEC.Associations
 {
     public static class AnimatorAssociations
     {
@@ -11,5 +13,15 @@
         public const string yVelocity  = "yVelocity";
         public const string Bump       = "onBump";
         public const string Kick       = "onKick";
+        public const string GoLeft     = "GoLeft";
+        public const string GoRight    = "GoRight";
+        public const string EndAnim    = "EndAnimation";
+
+        public static string GetSideHelpArrow(OrientationLR side) => side switch
+        {
+            OrientationLR.Right => GoLeft,
+            OrientationLR.Left => GoRight,
+            _ => throw new System.ArgumentException()
+        };
     }
 }
