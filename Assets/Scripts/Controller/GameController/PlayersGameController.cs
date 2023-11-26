@@ -49,22 +49,9 @@ namespace SEC.Controller
             }
         }
 
-        private void KilledPlayer(PlayerInput player)
-        {
-            MaskSwap(_maskBorderOff);
-            _playersDeathList.Add(player, EndMethod, _playersList[player].MovementSetting.DeathTime);
+        
 
-            _arrowHelper.SetBool(AnimatorAssociations.EndAnim, false);
-            _arrowHelper.SetTrigger(AnimatorAssociations.GetSideHelpArrow(player.HomeSide));
-
-            void EndMethod()
-            {
-                _arrowHelper.SetBool(AnimatorAssociations.EndAnim, true);
-                SpawnPlayer(player);
-            }
-        }
-
-        private void SpawnPlayer(PlayerInput player)
+        public void SpawnPlayer(PlayerInput player)
         {
             MaskSwap(_maskBorderOn);
 
@@ -90,6 +77,21 @@ namespace SEC.Controller
                 _playersList[player].Spawn(position);
             }
             _playersDeathList.Dispose();
+        }
+
+        private void KilledPlayer(PlayerInput player)
+        {
+            MaskSwap(_maskBorderOff);
+            _playersDeathList.Add(player, EndMethod, _playersList[player].MovementSetting.DeathTime);
+
+            _arrowHelper.SetBool(AnimatorAssociations.EndAnim, false);
+            _arrowHelper.SetTrigger(AnimatorAssociations.GetSideHelpArrow(player.HomeSide));
+
+            void EndMethod()
+            {
+                _arrowHelper.SetBool(AnimatorAssociations.EndAnim, true);
+                SpawnPlayer(player);
+            }
         }
 
         private void KillPlayersWithoutEgg()

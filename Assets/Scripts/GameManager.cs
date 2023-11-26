@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SEC.Associations;
 using SEC.Character;
 using SEC.Character.Controller;
 using SEC.Controller;
@@ -197,6 +198,13 @@ namespace SEC
 
         public void EndTriggerRightHandler(Collider2D collider) => _gameController.WhereWinner(OrientationLR.Right, collider);
         public void EndTriggerLeftHandler(Collider2D collider) => _gameController.WhereWinner(OrientationLR.Left, collider);
+        public void OutPlayerChek(Collider2D collider)
+        {
+            if (collider.gameObject.layer != LayerAssociations.Player) return;
+
+            _gameController.SpawnPlayer(collider.gameObject.GetComponent<PlayerInput>());
+        }
         private void OpenMenu(InputAction.CallbackContext _) => IsMenuOpen = !_isMenuOpen;
+
     }
 }

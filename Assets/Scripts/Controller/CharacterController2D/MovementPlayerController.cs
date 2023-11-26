@@ -192,14 +192,22 @@ namespace SEC.Character.Controller
             }
             else
             {
-                var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg);
+                var obj = checkTake.FirstOrDefault(obj => obj.gameObject.layer is LayerAssociations.PlayerTakeEgg or LayerAssociations.Player);
                 if (obj != null)
                 {
-                    AudioVoicePlay(Input.VoiceAudioData.Kick);
-                    AudioEffectPlay(Input.EffectAudioData.Hand);
-                    Input.Animator.SetTrigger(AnimatorAssociations.Kick);
+                    if (obj.gameObject.layer == LayerAssociations.PlayerTakeEgg)
+                    {
+                        AudioVoicePlay(Input.VoiceAudioData.Kick);
+                        AudioEffectPlay(Input.EffectAudioData.Hand);
+                        Input.Animator.SetTrigger(AnimatorAssociations.Kick);
 
-                    obj.GetComponentInParent<PlayerInput>().OnKicked();
+                        obj.GetComponentInParent<PlayerInput>().OnKicked();
+                    }
+                    else if (obj.transform != Input.transform)
+                    {
+                        Input.Animator.SetTrigger(AnimatorAssociations.Kick);
+                        obj.GetComponentInParent<PlayerInput>().OnKicked();
+                    }
                 }
             }
         }
@@ -225,18 +233,20 @@ namespace SEC.Character.Controller
         /// </summary>
         public void Kicked()
         {
-            IsEggTake = false;
-
             Input.Animator.SetTrigger(AnimatorAssociations.Bump);
             Effects.CameraShake(CameraShakeSetting.PlayerKick_Time, CameraShakeSetting.PlayerKick_Forse);
 
-            AddImmunable(MovementSetting.ImmunityTime);
-            Input.OnKick.Invoke();
-            _eggEvents.OnTake.Invoke(false);
+            if (!IsEggTake) return;
+            IsEggTake = false;
 
             Vector2 forsePush = new(_orientation == OrientationLR.Right ? MovementSetting.ForseKickedEgg : -MovementSetting.ForseKickedEgg, 0f);
-            Input.OnThrowEgg.Invoke(Input.EggCheck.position, forsePush / 2);
             Input.Rigidbody2D.AddForce(forsePush * 4, ForceMode2D.Impulse);
+            Input.OnKick.Invoke();
+
+            AddImmunable(MovementSetting.ImmunityTime);
+            _eggEvents.OnTake.Invoke(false);
+
+            Input.OnThrowEgg.Invoke(Input.EggCheck.position, forsePush / 2);
         }
 
         /// <summary>

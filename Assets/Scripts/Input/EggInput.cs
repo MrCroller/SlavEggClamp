@@ -45,5 +45,13 @@ namespace SEC.Character
         public void OnTakeHandler(bool value) => OnTake?.Invoke(value);
 
         public void OnThrowHandler(Vector2 position, Vector2 forse) => OnThrow?.Invoke(position, forse);
+
+        public void OutEggChek(Collider2D collider)
+        {
+            if (collider.gameObject != this) return;
+
+            Rigidbody2D.velocity = Vector2.zero;
+            transform.position = _eggSpawnPoint.position;
+        }
     }
 }

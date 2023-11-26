@@ -1,4 +1,6 @@
 ﻿using Cinemachine;
+using SEC.Associations;
+using SEC.Character;
 using SEC.Enums;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,7 +26,20 @@ namespace SEC.Map
             OnBorderExit ??= new();
         }
 
-        public void OnLeftEnterHandler() => OnBorderExit?.Invoke(OrientationLR.Left);
-        public void OnRightEnterHandler() => OnBorderExit?.Invoke(OrientationLR.Right);
+        public void OnLeftEnterHandler(Collider2D collision)
+        {
+            if (collision.gameObject.layer == LayerAssociations.PlayerTakeEgg)
+            {
+                OnBorderExit?.Invoke(OrientationLR.Left);
+            }
+        }
+
+        public void OnRightEnterHandler(Collider2D collision)
+        {
+            if (collision.gameObject.layer == LayerAssociations.PlayerTakeEgg)
+            {
+                OnBorderExit?.Invoke(OrientationLR.Right);
+            }
+        }
     }
 }
