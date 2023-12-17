@@ -20,7 +20,7 @@ namespace SEC.Character.Controller
 
         const float k_GroundedRadius = .2f;           // Радиус круга перекрытия для определения заземления
         const float k_CeilingRadius = .2f;           // Радиус круга перекрытия для определения того, может ли игрок встать
-        const float k_EggRadius = .4f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
+        const float k_EggRadius = .6f;           // Радиус круга перекрытия для определения того, может ли игрок взять яйцо
 
         public bool IsEggTake
         {

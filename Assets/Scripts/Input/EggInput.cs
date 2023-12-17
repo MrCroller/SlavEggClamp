@@ -48,7 +48,7 @@ namespace SEC.Character
 
         public void OutEggChek(Collider2D collider)
         {
-            if (collider.gameObject != this) return;
+            if (collider.gameObject.layer != LayerAssociations.Egg) return;
 
             Rigidbody2D.velocity = Vector2.zero;
             transform.position = _eggSpawnPoint.position;

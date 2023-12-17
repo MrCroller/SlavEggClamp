@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 857372338995814149}
   - component: {fileID: 3038713456761874255}
+  - component: {fileID: 2376272720525805240}
   m_Layer: 5
   m_Name: MinimapWindow
   m_TagString: Untagged
@@ -46,6 +47,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974669499726683943}
   m_CullTransparentMesh: 1
+--- !u!114 &2376272720525805240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974669499726683943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 3.3283083
 --- !u!1 &3075070151951081462
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +167,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 25, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3700539090464023426
@@ -203,6 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3486187228463669037}
   - component: {fileID: 8409729384615873806}
+  - component: {fileID: 5149315802355483734}
   m_Layer: 5
   m_Name: Mask
   m_TagString: Untagged
@@ -225,8 +241,8 @@ RectTransform:
   - {fileID: 5236908631259344884}
   m_Father: {fileID: 857372338995814149}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.14224827, y: 0.10522995}
-  m_AnchorMax: {x: 0.915, y: 0.272}
+  m_AnchorMin: {x: 0.5, y: 0.11137236}
+  m_AnchorMax: {x: 0.5, y: 0.27400002}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -244,3 +260,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 2, y: 2}
+--- !u!114 &5149315802355483734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973618023349093605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 15.824563

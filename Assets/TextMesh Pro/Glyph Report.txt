@@ -1,0 +1,12 @@
+Font: CyrillicOld  Style: Bold
+Point Size: 432   SP/PD Ratio: 3,7%
+
+Characters included: 86/86
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------

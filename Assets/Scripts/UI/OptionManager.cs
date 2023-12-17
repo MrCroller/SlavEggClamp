@@ -86,7 +86,7 @@ namespace SEC.UI
 
         private void ExitButtonHandler()
         {
-            Application.Quit();
+            SceneManager.LoadScene(SceneAssociations.Menu);
         }
     }
 }
