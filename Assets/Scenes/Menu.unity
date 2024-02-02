@@ -245,6 +245,7 @@ MonoBehaviour:
   mainMenu: {fileID: 1797307678}
   optionMenu: {fileID: 1257174474}
   fader: {fileID: 997792846}
+  version: {fileID: 1692476380}
   Audio: {fileID: 1128109830}
   clip1: {fileID: 8300000, guid: af717c8d63874484286aa3c6aa3b95f4, type: 3}
   clip2: {fileID: 8300000, guid: 72b598f6a4430ec4698a4bd155c3f732, type: 3}
@@ -1810,7 +1811,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v1.0.0-dev
+  m_text: "v\u0425.\u0425.\u0425-dev"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

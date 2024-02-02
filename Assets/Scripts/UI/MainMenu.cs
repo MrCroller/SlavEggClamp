@@ -1,5 +1,6 @@
 ﻿using SEC.Associations;
 using SEC.Helpers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngineTimers;
@@ -8,10 +9,10 @@ namespace SEC.UI
 {
     public class MainMenu : MonoBehaviour
     {
-
         public GameObject mainMenu;
         public GameObject optionMenu;
         public Fader fader;
+        public TMP_Text version;
 
         public AudioSource Audio;
         public AudioClip clip1;
@@ -30,6 +31,7 @@ namespace SEC.UI
         {
             mainMenu.SetActive(true);
             optionMenu.SetActive(false);
+            version.text = $"v{Application.version}";
 
             TimersPool.GetInstance().StartTimer(MusicEnd, clip1.length - .05f);
             Audio.Play(clip1);
